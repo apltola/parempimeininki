@@ -1,7 +1,7 @@
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 
-export default function Home(props) {
+export default function Home() {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>This is a website!</h1>
@@ -14,10 +14,12 @@ export default function Home(props) {
           </a>
         </Link>
 
-        <a href="https://nextjs.org/learn" className={styles.card}>
-          <h3>Learn &rarr;</h3>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
+        <Link href="/papruipsum">
+          <a className={styles.card}>
+            <h3>Papruipsum &rarr;</h3>
+            <p>Lorem ipsum generator with Paperi-T lyrics</p>
+          </a>
+        </Link>
       </div>
     </section>
   );
