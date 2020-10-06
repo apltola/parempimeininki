@@ -12,7 +12,7 @@
 .text {
   position: absolute;
   top: 15px;
-  left: -25px;
+  left: -30px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   cursor: default;
 }

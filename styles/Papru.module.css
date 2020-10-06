@@ -1,7 +1,6 @@
 .container {
   display: flex;
   justify-content: center;
-  padding: 0 10px 3rem 10px;
 }
 
 .content {
