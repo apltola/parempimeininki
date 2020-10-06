@@ -132,8 +132,20 @@ const TypingGame = () => {
 
   return (
     <section>
-      <div className={styles.container}>{gameBoard}</div>
-      <input type="text" hidden ref={hiddenInput} />
+      <div className={styles.container}>
+        {gameBoard}
+        <input
+          type="text"
+          ref={hiddenInput}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            zIndex: -1,
+            color: 'transparent',
+            caretColor: 'transparent',
+          }}
+        />
+      </div>
     </section>
   );
 };
