@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.gameBoard {
+  border: 1px solid black;
+  width: 95%;
+  max-width: 600px;
+  height: 500px;
+  background-color: #353535;
+  color: #fffcf9;
+  position: relative;
+}
+
+.startButton {
+  background: transparent;
+  color: #fffcf9;
+  border: 2px solid #fffcf9;
+  padding: 10px 20px;
+  font-size: 22px;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 150ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.startButton:hover {
+  color: #da3f62;
+  border: 2px solid #da3f62;
+}
+
+.startScreen,
+.gameOverScreen {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 2em;
+}
+
+.startScreen .startButton,
+.gameOverScreen .startButton {
+  margin-top: 2em;
+}
+
+.playScreen {
+  padding: 5px 10px;
+}
+
+.playScreen .headerRow {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.headerRow .left {
+  flex: 1;
+  text-align: left;
+  font-size: 20px;
+}
+
+.headerRow .right {
+  flex: 1;
+  text-align: right;
+  font-size: 20px;
+}
+
+.word {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 45px;
+  padding-top: 50px;
+}
+
+.letter[correct='true'] {
+  color: #da3f62;
+}
+
+.letter[correct='false'] {
+  color: #f3b61f;
+}
+
+.score {
+  padding-top: 20px;
+}
+
+@media screen and (max-width: 640px) {
+  .word {
+    font-size: 30px;
+  }
+}

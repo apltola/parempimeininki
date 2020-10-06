@@ -1,0 +1,22 @@
+.header {
+  position: relative;
+  background-color: #000;
+  color: white;
+  font-size: 30px;
+  font-style: italic;
+  font-weight: bolder;
+  height: 70px;
+  overflow: hidden;
+}
+
+.text {
+  position: absolute;
+  top: 15px;
+  left: -25px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.linkContainer {
+  padding: 10px;
+  padding-bottom: 30px;
+}
