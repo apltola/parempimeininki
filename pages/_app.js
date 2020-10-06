@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import Header from '../components/header';
 import Head from 'next/head';
+import Footer from '../components/footer';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -8,8 +9,13 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>parempi meininki</title>
       </Head>
-      <Header />
-      <Component {...pageProps} />;
+      <div className="app-container">
+        <Header />
+        <main className="app-main">
+          <Component {...pageProps} />
+        </main>
+        <Footer />
+      </div>
     </React.Fragment>
   );
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import words from '../lib/words';
 import styles from '../styles/Typing.module.css';
-import Link from 'next/link';
 
 const TypingGame = () => {
   const [gameOver, setGameOver] = useState(false);
@@ -129,9 +128,9 @@ const TypingGame = () => {
   }
 
   return (
-    <div>
+    <section>
       <div className={styles.container}>{gameBoard}</div>
-    </div>
+    </section>
   );
 };
 
