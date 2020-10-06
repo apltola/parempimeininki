@@ -1,5 +1,5 @@
 .container {
-  padding: 3rem 0 5rem 0;
+  padding: 3rem 1rem 5rem 1rem;
   display: flex;
   justify-content: center;
 }
@@ -55,4 +55,10 @@
   font-size: 18px;
   line-height: 28px;
   color: black;
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    padding: 1rem 1rem 6rem 1rem;
+  }
 }

@@ -90,4 +90,8 @@
   .word {
     font-size: 30px;
   }
+
+  .container {
+    padding: 1rem 0 6rem 0;
+  }
 }
