@@ -143,6 +143,8 @@ const TypingGame = () => {
             zIndex: -1,
             color: 'transparent',
             caretColor: 'transparent',
+            border: 'none',
+            fontSize: '16px',
           }}
         />
       </div>
