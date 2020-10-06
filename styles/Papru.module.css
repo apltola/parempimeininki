@@ -9,6 +9,10 @@
   max-width: 700px;
 }
 
+.content h1 {
+  margin-top: 0;
+}
+
 .content label {
   display: block;
 }

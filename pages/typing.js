@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import words from '../lib/words';
 import styles from '../styles/Typing.module.css';
 
@@ -9,6 +9,7 @@ const TypingGame = () => {
   const [score, setScore] = useState(0);
   const [currentWord, setCurrentWord] = useState('');
   const [currentLetters, setCurrentLetters] = useState([]);
+  const hiddenInput = useRef();
 
   useEffect(() => {
     if (!gameActive) {
@@ -24,6 +25,7 @@ const TypingGame = () => {
           setGameOver(true);
           setgameActive(false);
           clearInterval(interval);
+          hiddenInput.current.blur();
           return 0;
         }
 
@@ -51,6 +53,7 @@ const TypingGame = () => {
     setTimeLeft(60);
     setScore(0);
     setNewWord();
+    hiddenInput.current.focus();
   };
 
   const setNewWord = () => {
@@ -130,6 +133,7 @@ const TypingGame = () => {
   return (
     <section>
       <div className={styles.container}>{gameBoard}</div>
+      <input type="text" hidden ref={hiddenInput} />
     </section>
   );
 };
