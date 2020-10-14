@@ -145,6 +145,7 @@ const TypingGame = () => {
             caretColor: 'transparent',
             border: 'none',
             fontSize: '16px',
+            //outline: 'none',
           }}
         />
       </div>
