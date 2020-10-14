@@ -139,13 +139,13 @@ const TypingGame = () => {
           ref={hiddenInput}
           style={{
             position: 'absolute',
-            top: '50%',
+            top: '30%',
             zIndex: -1,
             color: 'transparent',
             caretColor: 'transparent',
             border: 'none',
             fontSize: '16px',
-            //outline: 'none',
+            outline: 'none',
           }}
         />
       </div>
