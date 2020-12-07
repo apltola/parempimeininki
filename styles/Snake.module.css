@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.canvasContainer {
+  position: relative;
+}
+
+.score {
+  position: absolute;
+  top: -24px;
+  left: 0;
+}
+
+.gameOverView {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 5px;
+  left: 0;
+  padding-top: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.restartButton {
+  border: transparent;
+  background-color: #ffe66d;
+  color: black;
+  padding: 5px 15px;
+  font-size: large;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.startButton {
+  background-color: transparent;
+  color: #2a2d34;
+  border: transparent;
+  padding: 10px 20px;
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.startButton:hover {
+  opacity: 0.8;
+}
+
+.btn:active {
+  transform: translateY(1px);
+  outline: none;
+}
+
+.btn:focus {
+  outline: none;
+}

@@ -20,13 +20,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-/* export function getServerSideProps(ctx) {
-  console.log('serverside', ctx);
-  return {
-    pageProps: {
-      message: 'juukeli',
-    },
-  };
-} */
-
 export default MyApp;
