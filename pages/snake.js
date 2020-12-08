@@ -56,10 +56,12 @@ export default function Snake2() {
 
     setSnakePosition();
 
+    // paint black background for canvas
     const ctx = canv.current.getContext('2d');
     ctx.fillStyle = '#2A2D34';
     ctx.fillRect(0, 0, canv.current.width, canv.current.height);
 
+    // paint snake
     ctx.fillStyle = '#20FC8F';
     for (let i = 0; i < trail.length; i++) {
       const element = trail[i];
@@ -80,6 +82,7 @@ export default function Snake2() {
       trail.shift();
     }
 
+    // paint apple in random location
     if (appleX === posX && appleY == posY) {
       tail++;
       appleX = Math.floor(Math.random() * tileCount);
@@ -148,7 +151,7 @@ export default function Snake2() {
       posY = 0;
     }
 
-    // reset events array so we don't have to such heavy looping
+    // reset events array so we don't have to do heavy looping
     keyDownEvents = [keyDownEvents[keyDownEvents.length - 1]];
   }
 
