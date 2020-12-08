@@ -6,16 +6,18 @@ export default function Snake2() {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+
   let posX = 10;
   let posY = 10;
   let velocityX = -1;
   let velocityY = 0;
   let trail = [];
-  let gridSize = 20;
+  let tileSize = 20;
   let tileCount = 20;
   let tail = 5;
   let appleX = 12;
   let appleY = 12;
+  let keyDownEvents = [{ direction: 'left', handled: false }];
 
   useEffect(() => {
     if (!gameStarted || gameOver) {
@@ -30,56 +32,31 @@ export default function Snake2() {
     };
   }, [gameStarted, gameOver]);
 
-  const handleKeyDown = (event) => {
+  function handleKeyDown(event) {
     switch (event.keyCode) {
       case 37: // arrow left
-        if (velocityX !== 1) {
-          velocityX = -1;
-          velocityY = 0;
-        }
+        keyDownEvents.push({ direction: 'left', handled: false });
         break;
       case 38: // arrow up
-        if (velocityY !== 1) {
-          velocityX = 0;
-          velocityY = -1;
-        }
+        keyDownEvents.push({ direction: 'up', handled: false });
         break;
       case 39: // arrow right
-        if (velocityX !== -1) {
-          velocityX = 1;
-          velocityY = 0;
-        }
+        keyDownEvents.push({ direction: 'right', handled: false });
         break;
       case 40: // arrow down
-        if (velocityY !== -1) {
-          velocityX = 0;
-          velocityY = 1;
-        }
+        keyDownEvents.push({ direction: 'down', handled: false });
         break;
     }
-  };
+  }
 
-  const runGame = () => {
+  function runGame() {
     if (!canv.current) {
       return;
     }
+
+    setSnakePosition();
+
     const ctx = canv.current.getContext('2d');
-
-    posX = posX + velocityX;
-    posY = posY + velocityY;
-    if (posX < 0) {
-      posX = tileCount - 1;
-    }
-    if (posX > tileCount - 1) {
-      posX = 0;
-    }
-    if (posY < 0) {
-      posY = tileCount - 1;
-    }
-    if (posY > tileCount - 1) {
-      posY = 0;
-    }
-
     ctx.fillStyle = '#2A2D34';
     ctx.fillRect(0, 0, canv.current.width, canv.current.height);
 
@@ -87,13 +64,13 @@ export default function Snake2() {
     for (let i = 0; i < trail.length; i++) {
       const element = trail[i];
       ctx.fillRect(
-        element.x * gridSize,
-        element.y * gridSize,
-        gridSize - 2,
-        gridSize - 2
+        element.x * tileSize,
+        element.y * tileSize,
+        tileSize - 1,
+        tileSize - 1
       );
       if (element.x == posX && element.y == posY) {
-        console.log('game over');
+        console.log('GAME OVER');
         setGameOver(true);
       }
     }
@@ -111,20 +88,77 @@ export default function Snake2() {
     }
     ctx.fillStyle = '#FF6B6B';
     ctx.fillRect(
-      appleX * gridSize,
-      appleY * gridSize,
-      gridSize - 2,
-      gridSize - 2
+      appleX * tileSize,
+      appleY * tileSize,
+      tileSize - 1,
+      tileSize - 1
     );
-  };
+  }
 
-  const startGame = () => {
+  function setSnakePosition() {
+    let eventToProcess = keyDownEvents[keyDownEvents.length - 1];
+    for (let i = 0; i < keyDownEvents.length; i++) {
+      if (keyDownEvents[i].handled === false) {
+        eventToProcess = keyDownEvents[i];
+        keyDownEvents[i].handled = true;
+        break;
+      }
+    }
+
+    switch (eventToProcess.direction) {
+      case 'left':
+        if (velocityX !== 1) {
+          velocityX = -1;
+          velocityY = 0;
+        }
+        break;
+      case 'up':
+        if (velocityY !== 1) {
+          velocityX = 0;
+          velocityY = -1;
+        }
+        break;
+      case 'right':
+        if (velocityX !== -1) {
+          velocityX = 1;
+          velocityY = 0;
+        }
+        break;
+      case 'down':
+        if (velocityY !== -1) {
+          velocityX = 0;
+          velocityY = 1;
+        }
+        break;
+    }
+
+    posX = posX + velocityX;
+    posY = posY + velocityY;
+
+    if (posX < 0) {
+      posX = tileCount - 1;
+    }
+    if (posX > tileCount - 1) {
+      posX = 0;
+    }
+    if (posY < 0) {
+      posY = tileCount - 1;
+    }
+    if (posY > tileCount - 1) {
+      posY = 0;
+    }
+
+    // reset events array so we don't have to such heavy looping
+    keyDownEvents = [keyDownEvents[keyDownEvents.length - 1]];
+  }
+
+  function startGame() {
     setGameStarted(true);
     setGameOver(false);
     setScore(0);
-  };
+  }
 
-  const renderGameBoard = () => {
+  function renderGameBoard() {
     if (!gameStarted && !gameOver) {
       return (
         <div>
@@ -143,7 +177,7 @@ export default function Snake2() {
           <canvas id="snakecanvas" width="400" height="400" ref={canv}></canvas>
           {gameOver && (
             <div className={styles.gameOverView}>
-              <h2>You're dead!</h2>
+              <h2>Game over!</h2>
               <h3>Score: {score}</h3>
               <button
                 className={`${styles.btn} ${styles.restartButton}`}
@@ -156,7 +190,7 @@ export default function Snake2() {
         </div>
       );
     }
-  };
+  }
 
   return <section className={styles.container}>{renderGameBoard()}</section>;
 }

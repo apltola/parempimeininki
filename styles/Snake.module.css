@@ -2,6 +2,7 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  font-family: monospace, 'Courier New', Courier;
 }
 
 .canvasContainer {
@@ -10,8 +11,11 @@
 
 .score {
   position: absolute;
-  top: -24px;
+  top: -26px;
   left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 18px;
 }
 
 .gameOverView {
@@ -26,29 +30,8 @@
   text-align: center;
 }
 
-.restartButton {
-  border: transparent;
-  background-color: #ffe66d;
-  color: black;
-  padding: 5px 15px;
-  font-size: large;
-  font-weight: 600;
-  border-radius: 5px;
-}
-
-.startButton {
-  background-color: transparent;
-  color: #2a2d34;
-  border: transparent;
-  padding: 10px 20px;
-  font-size: 30px;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-style: italic;
-}
-
-.startButton:hover {
-  opacity: 0.8;
+.btn {
+  font-family: inherit;
 }
 
 .btn:active {
@@ -58,4 +41,34 @@
 
 .btn:focus {
   outline: none;
+}
+
+.restartButton {
+  border: transparent;
+  background-color: #ffe66d;
+  color: black;
+  padding: 5px 15px;
+  font-size: large;
+  font-weight: 600;
+  border-radius: 5px;
+  margin-top: 40px;
+}
+
+.restartButton:hover {
+  color: white;
+}
+
+.startButton {
+  background-color: transparent;
+  color: #2a2d34;
+  border: transparent;
+  padding: 10px 20px;
+  font-size: 40px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.startButton:hover {
+  opacity: 0.8;
 }
