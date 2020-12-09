@@ -1,0 +1,11 @@
+.title {
+  margin-block-start: 0;
+}
+
+.container table {
+}
+
+.container table th,
+.container table td {
+  padding-right: 30px;
+}

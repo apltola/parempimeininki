@@ -5,8 +5,16 @@
   font-family: monospace, 'Courier New', Courier;
 }
 
+.rowLeft,
+.rowRight {
+  flex: 1;
+  padding: 0 20px;
+}
+
 .canvasContainer {
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 .score {
@@ -24,10 +32,22 @@
   right: 0;
   bottom: 5px;
   left: 0;
-  padding-top: 20px;
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
   color: white;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   text-align: center;
+}
+
+.restartBtnContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
 }
 
 .btn {
@@ -44,6 +64,7 @@
 }
 
 .restartButton {
+  align-self: center;
   border: transparent;
   background-color: #ffe66d;
   color: black;
@@ -51,7 +72,6 @@
   font-size: large;
   font-weight: 600;
   border-radius: 5px;
-  margin-top: 40px;
 }
 
 .restartButton:hover {
@@ -71,4 +91,21 @@
 
 .startButton:hover {
   opacity: 0.8;
+}
+
+.textInput {
+  font-family: inherit;
+  padding: 5px 10px;
+  margin-right: 5px;
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .rowRight {
+    display: flex;
+    justify-content: center;
+  }
 }

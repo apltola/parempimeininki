@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/Snake.module.css';
+import axios from 'axios';
+import SnakeScoreboard from '../components/snakeScoreboard';
 
-export default function Snake2() {
+export default function Snake2({ scoresList }) {
   const canv = useRef();
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const [scoreIsTopTen, setScoreIsTopTen] = useState(false);
 
   let posX = 10;
   let posY = 10;
@@ -73,7 +76,7 @@ export default function Snake2() {
       );
       if (element.x == posX && element.y == posY) {
         console.log('GAME OVER');
-        setGameOver(true);
+        handleGameOver();
       }
     }
 
@@ -159,12 +162,26 @@ export default function Snake2() {
     setGameStarted(true);
     setGameOver(false);
     setScore(0);
+    setScoreIsTopTen(false);
+  }
+
+  function handleGameOver() {
+    setGameOver(true);
+
+    if (scoresList.length >= 10) {
+      const lowestInTopTen = scoresList[9];
+      if (score > lowestInTopTen) {
+        setScoreIsTopTen(true);
+      }
+    } else {
+      setScoreIsTopTen(true);
+    }
   }
 
   function renderGameBoard() {
     if (!gameStarted && !gameOver) {
       return (
-        <div>
+        <div className={styles.canvasContainer}>
           <button
             className={`${styles.btn} ${styles.startButton}`}
             onClick={startGame}
@@ -176,18 +193,20 @@ export default function Snake2() {
     } else {
       return (
         <div className={styles.canvasContainer}>
-          {!gameOver && <div className={styles.score}>Score: {score}</div>}
+          <div className={styles.score}>Score: {score}</div>
           <canvas id="snakecanvas" width="400" height="400" ref={canv}></canvas>
           {gameOver && (
             <div className={styles.gameOverView}>
-              <h2>Game over!</h2>
-              <h3>Score: {score}</h3>
-              <button
-                className={`${styles.btn} ${styles.restartButton}`}
-                onClick={startGame}
-              >
-                Restart
-              </button>
+              <h2>Game over</h2>
+              {scoreIsTopTen && <AddNewScore score={score} />}
+              <div className={styles.restartBtnContainer}>
+                <button
+                  className={`${styles.btn} ${styles.restartButton}`}
+                  onClick={startGame}
+                >
+                  Restart game
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -195,5 +214,68 @@ export default function Snake2() {
     }
   }
 
-  return <section className={styles.container}>{renderGameBoard()}</section>;
+  async function insert() {
+    const res = await axios.post('/api/snakescores', {
+      player: 'juukeli',
+      points: 55,
+    });
+    //const res = await axios.get('/api/snakescores');
+    console.log(res.data);
+  }
+
+  return (
+    <React.Fragment>
+      <section className={styles.container}>
+        <div className={styles.rowLeft}></div>
+        {renderGameBoard()}
+        <div className={styles.rowRight}>
+          {gameStarted && <SnakeScoreboard scores={scoresList} />}
+        </div>
+      </section>
+      {/* <div>connected to db: {JSON.stringify(props.isConnected, null, 2)}</div> */}
+      <div>
+        <button onClick={insert}>insert document</button>
+      </div>
+    </React.Fragment>
+  );
+}
+
+function AddNewScore({ score }) {
+  const [name, setName] = useState('');
+
+  function handleChange(e) {
+    setName(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(name, score);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <p>Congrats, your score is in the top 10!</p>
+      <p>Please add a name for the scoreboard:</p>
+      <input
+        type="text"
+        value={name}
+        onChange={handleChange}
+        placeholder="player name"
+        className={styles.textInput}
+      />
+      <button type="submit" className={styles.btn}>
+        Save
+      </button>
+    </form>
+  );
+}
+
+export async function getServerSideProps(context) {
+  //const { data } = await axios.get('/api/snakescores');
+  const res = await fetch('http://localhost:3000/api/snakescores');
+  const data = await res.json();
+
+  return {
+    props: { scoresList: data },
+  };
 }
