@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/Snake.module.css';
 import axios from 'axios';
 import SnakeScoreboard from '../components/snakeScoreboard';
+import DotLoader from 'react-spinners/PulseLoader';
 
 export default function Snake2(props) {
   const canv = useRef();
@@ -236,6 +237,7 @@ export default function Snake2(props) {
 function AddNewScore({ score, callBack }) {
   const [name, setName] = useState('');
   const [scoreSubmitted, setScoreSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     setName(e.target.value);
@@ -243,6 +245,7 @@ function AddNewScore({ score, callBack }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     if (scoreSubmitted) {
       return;
@@ -254,10 +257,12 @@ function AddNewScore({ score, callBack }) {
         points: score,
       });
       setName('');
+      setLoading(false);
       callBack(res.data);
       setScoreSubmitted(true);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   }
 
@@ -287,6 +292,11 @@ function AddNewScore({ score, callBack }) {
         Save
       </button>
       {name.length > 20 && <p>Player name too long!</p>}
+      {loading && (
+        <div style={{ paddingTop: '20px' }}>
+          <DotLoader loading={loading} size={10} color="white" margin={5} />
+        </div>
+      )}
     </form>
   );
 }

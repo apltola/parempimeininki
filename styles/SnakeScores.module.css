@@ -4,3 +4,7 @@
   max-width: 200px;
   word-wrap: break-word;
 }
+
+.container td {
+  padding-top: 5px;
+}
