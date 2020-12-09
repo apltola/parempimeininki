@@ -8,17 +8,18 @@ export default function SnakeScoreboard({ scores }) {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>Scoreboard</h3>
       <table style={{ textAlign: 'left' }}>
         <tbody>
           <tr>
-            <th>Player</th>
+            <th></th>
+            <th className={styles.playerCol}>Player</th>
             <th>Score</th>
           </tr>
-          {scores.map(({ _id, player, points }) => {
+          {scores.map(({ _id, player, points }, idx) => {
             return (
               <tr key={_id}>
-                <td>{player}</td>
+                <td>{idx + 1}</td>
+                <td className={styles.playerCol}>{player}</td>
                 <td>{points}</td>
               </tr>
             );

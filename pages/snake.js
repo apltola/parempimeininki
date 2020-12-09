@@ -272,7 +272,7 @@ function AddNewScore({ score }) {
 
 export async function getServerSideProps(context) {
   //const { data } = await axios.get('/api/snakescores');
-  const res = await fetch('http://localhost:3000/api/snakescores');
+  const res = await fetch(`${process.env.BASE_URL}/api/snakescores`);
   const data = await res.json();
 
   return {

@@ -1,11 +1,8 @@
-.title {
-  margin-block-start: 0;
+.container {
 }
 
-.container table {
-}
-
-.container table th,
-.container table td {
+.container table .playerCol {
+  padding-left: 10px;
   padding-right: 30px;
+  padding-top: 5px;
 }
