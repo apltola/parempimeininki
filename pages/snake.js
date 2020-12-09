@@ -8,10 +8,10 @@ export default function Snake2(props) {
   const canv = useRef();
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [score, setScore] = useState(0);
   const [scoreIsTopTen, setScoreIsTopTen] = useState(false);
   const [scoresList, setScoresList] = useState(props.scoresList);
-
+  const [score, setScore] = useState(0); // score for dom
+  let _score = 0; // score for component reference
   let posX = 10;
   let posY = 10;
   let velocityX = -1;
@@ -78,9 +78,11 @@ export default function Snake2(props) {
       );
       if (element.x == posX && element.y == posY) {
         console.log('GAME OVER');
+
         handleGameOver();
       }
     }
+    console.log(score);
 
     trail.push({ x: posX, y: posY });
     if (trail.length > tail) {
@@ -92,6 +94,7 @@ export default function Snake2(props) {
       tail++;
       appleX = Math.floor(Math.random() * tileCount);
       appleY = Math.floor(Math.random() * tileCount);
+      _score++;
       setScore((prev) => prev + 1);
     }
     ctx.fillStyle = '#FF6B6B';
@@ -160,22 +163,21 @@ export default function Snake2(props) {
     keyDownEvents = [keyDownEvents[keyDownEvents.length - 1]];
   }
 
-  function startGame() {
+  const startGame = () => {
     setGameStarted(true);
     setGameOver(false);
     setScore(0);
+    _score = 0;
     setScoreIsTopTen(false);
-  }
+  };
 
   function handleGameOver() {
     setGameOver(true);
+    console.log('score -> ', score);
+    console.log('_score -> ', _score);
 
-    if (scoresList.length >= 10) {
-      const lowestInTopTen = scoresList[9];
-      if (score > lowestInTopTen) {
-        setScoreIsTopTen(true);
-      }
-    } else {
+    const lowestInTopTen = scoresList[9].points;
+    if (_score > lowestInTopTen) {
       setScoreIsTopTen(true);
     }
   }
@@ -224,7 +226,10 @@ export default function Snake2(props) {
   return (
     <React.Fragment>
       <section className={styles.container}>
-        <div className={styles.rowLeft}></div>
+        <div className={styles.rowLeft}>
+          topten : {JSON.stringify(scoreIsTopTen)}
+          <div>scores amount: {scoresList.length}</div>
+        </div>
         {renderGameBoard()}
         <div className={styles.rowRight}>
           {gameStarted && <SnakeScoreboard scores={scoresList} />}
@@ -235,6 +240,8 @@ export default function Snake2(props) {
 }
 
 function AddNewScore({ score, callBack }) {
+  console.log('onks tää nyt nolla? ', score);
+
   const [name, setName] = useState('');
   const [scoreSubmitted, setScoreSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
