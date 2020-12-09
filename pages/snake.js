@@ -226,10 +226,7 @@ export default function Snake2(props) {
   return (
     <React.Fragment>
       <section className={styles.container}>
-        <div className={styles.rowLeft}>
-          topten : {JSON.stringify(scoreIsTopTen)}
-          <div>scores amount: {scoresList.length}</div>
-        </div>
+        <div className={styles.rowLeft}></div>
         {renderGameBoard()}
         <div className={styles.rowRight}>
           {gameStarted && <SnakeScoreboard scores={scoresList} />}
