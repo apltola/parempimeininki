@@ -3,12 +3,13 @@ import styles from '../styles/Snake.module.css';
 import axios from 'axios';
 import SnakeScoreboard from '../components/snakeScoreboard';
 
-export default function Snake2({ scoresList }) {
+export default function Snake2(props) {
   const canv = useRef();
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [scoreIsTopTen, setScoreIsTopTen] = useState(false);
+  const [scoresList, setScoresList] = useState(props.scoresList);
 
   let posX = 10;
   let posY = 10;
@@ -198,7 +199,12 @@ export default function Snake2({ scoresList }) {
           {gameOver && (
             <div className={styles.gameOverView}>
               <h2>Game over</h2>
-              {scoreIsTopTen && <AddNewScore score={score} />}
+              {scoreIsTopTen && (
+                <AddNewScore
+                  score={score}
+                  callBack={(scores) => setScoresList(scores)}
+                />
+              )}
               <div className={styles.restartBtnContainer}>
                 <button
                   className={`${styles.btn} ${styles.restartButton}`}
@@ -214,15 +220,6 @@ export default function Snake2({ scoresList }) {
     }
   }
 
-  async function insert() {
-    const res = await axios.post('/api/snakescores', {
-      player: 'juukeli',
-      points: 55,
-    });
-    //const res = await axios.get('/api/snakescores');
-    console.log(res.data);
-  }
-
   return (
     <React.Fragment>
       <section className={styles.container}>
@@ -232,24 +229,40 @@ export default function Snake2({ scoresList }) {
           {gameStarted && <SnakeScoreboard scores={scoresList} />}
         </div>
       </section>
-      {/* <div>connected to db: {JSON.stringify(props.isConnected, null, 2)}</div> */}
-      <div>
-        <button onClick={insert}>insert document</button>
-      </div>
     </React.Fragment>
   );
 }
 
-function AddNewScore({ score }) {
+function AddNewScore({ score, callBack }) {
   const [name, setName] = useState('');
+  const [scoreSubmitted, setScoreSubmitted] = useState(false);
 
   function handleChange(e) {
     setName(e.target.value);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(name, score);
+
+    if (scoreSubmitted) {
+      return;
+    }
+
+    try {
+      const res = await axios.post('/api/snakescores', {
+        player: name,
+        points: score,
+      });
+      setName('');
+      callBack(res.data);
+      setScoreSubmitted(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function submitIsDisabled() {
+    return !name || scoreSubmitted || name.length > 20;
   }
 
   return (
@@ -263,15 +276,22 @@ function AddNewScore({ score }) {
         placeholder="player name"
         className={styles.textInput}
       />
-      <button type="submit" className={styles.btn}>
+      <button
+        type="submit"
+        className={styles.btn}
+        disabled={submitIsDisabled()}
+        style={{
+          cursor: submitIsDisabled() ? 'not-allowed' : 'pointer',
+        }}
+      >
         Save
       </button>
+      {name.length > 20 && <p>Player name too long!</p>}
     </form>
   );
 }
 
 export async function getServerSideProps(context) {
-  //const { data } = await axios.get('/api/snakescores');
   const res = await fetch(`${process.env.BASE_URL}/api/snakescores`);
   const data = await res.json();
 

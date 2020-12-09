@@ -19,11 +19,11 @@
 
 .score {
   position: absolute;
-  top: -26px;
+  top: -30px;
   left: 0;
   right: 0;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .gameOverView {
@@ -107,5 +107,6 @@
   .rowRight {
     display: flex;
     justify-content: center;
+    padding-top: 20px;
   }
 }

@@ -1,8 +1,6 @@
-.container {
-}
-
-.container table .playerCol {
+.playerCol {
   padding-left: 10px;
   padding-right: 30px;
-  padding-top: 5px;
+  max-width: 200px;
+  word-wrap: break-word;
 }

@@ -2,7 +2,7 @@ import axios from 'axios';
 import styles from '../styles/SnakeScores.module.css';
 
 export default function SnakeScoreboard({ scores }) {
-  if (!scores || scores.length === 0) {
+  if (typeof scores === 'undefined') {
     return <div></div>;
   }
 
@@ -18,7 +18,7 @@ export default function SnakeScoreboard({ scores }) {
           {scores.map(({ _id, player, points }, idx) => {
             return (
               <tr key={_id}>
-                <td>{idx + 1}</td>
+                <td className={styles.positionCol}>{idx + 1}</td>
                 <td className={styles.playerCol}>{player}</td>
                 <td>{points}</td>
               </tr>
@@ -26,15 +26,6 @@ export default function SnakeScoreboard({ scores }) {
           })}
         </tbody>
       </table>
-      {/* scores.map(({ _id, player, points }) => {
-          return (
-            <li key={_id}>
-              <span>{player}</span>
-              <span>{points}</span>
-            </li>
-          );
-          
-        }) */}
     </div>
   );
 }
