@@ -30,7 +30,6 @@ export default function Snake(props) {
     // doesn't work on mobile...
     if (isMobile) {
       router.push('/');
-      return null;
     }
   }, []);
 
@@ -231,13 +230,15 @@ export default function Snake(props) {
 
   return (
     <React.Fragment>
-      <section className={styles.container}>
-        <div className={styles.rowLeft}></div>
-        {renderGameBoard()}
-        <div className={styles.rowRight}>
-          {gameStarted && <Scoreboard scores={scoresList} />}
-        </div>
-      </section>
+      {!isMobile && (
+        <section className={styles.container}>
+          <div className={styles.rowLeft}></div>
+          {renderGameBoard()}
+          <div className={styles.rowRight}>
+            {gameStarted && <Scoreboard scores={scoresList} />}
+          </div>
+        </section>
+      )}
     </React.Fragment>
   );
 }
