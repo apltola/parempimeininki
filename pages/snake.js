@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/Snake.module.css';
-import axios from 'axios';
-import SnakeScoreboard from '../components/snakeScoreboard';
-import DotLoader from 'react-spinners/PulseLoader';
+import Scoreboard from '../components/snake/scoreboard';
+import AddNewScore from '../components/snake/addNewScore';
 
-export default function Snake2(props) {
+export default function Snake(props) {
   const canv = useRef();
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -78,11 +77,9 @@ export default function Snake2(props) {
       );
       if (element.x == posX && element.y == posY) {
         console.log('GAME OVER');
-
         handleGameOver();
       }
     }
-    console.log(score);
 
     trail.push({ x: posX, y: posY });
     if (trail.length > tail) {
@@ -159,22 +156,20 @@ export default function Snake2(props) {
       posY = 0;
     }
 
-    // reset events array so we don't have to do heavy looping
+    // reset events array so heavy looping isn't needed
     keyDownEvents = [keyDownEvents[keyDownEvents.length - 1]];
   }
 
-  const startGame = () => {
+  function handleStartGame() {
     setGameStarted(true);
     setGameOver(false);
     setScore(0);
     _score = 0;
     setScoreIsTopTen(false);
-  };
+  }
 
   function handleGameOver() {
     setGameOver(true);
-    console.log('score -> ', score);
-    console.log('_score -> ', _score);
 
     const lowestInTopTen = scoresList[9].points;
     if (_score > lowestInTopTen) {
@@ -188,7 +183,7 @@ export default function Snake2(props) {
         <div className={styles.canvasContainer}>
           <button
             className={`${styles.btn} ${styles.startButton}`}
-            onClick={startGame}
+            onClick={handleStartGame}
           >
             Start game
           </button>
@@ -211,7 +206,7 @@ export default function Snake2(props) {
               <div className={styles.restartBtnContainer}>
                 <button
                   className={`${styles.btn} ${styles.restartButton}`}
-                  onClick={startGame}
+                  onClick={handleStartGame}
                 >
                   Restart game
                 </button>
@@ -229,79 +224,10 @@ export default function Snake2(props) {
         <div className={styles.rowLeft}></div>
         {renderGameBoard()}
         <div className={styles.rowRight}>
-          {gameStarted && <SnakeScoreboard scores={scoresList} />}
+          {gameStarted && <Scoreboard scores={scoresList} />}
         </div>
       </section>
     </React.Fragment>
-  );
-}
-
-function AddNewScore({ score, callBack }) {
-  console.log('onks tää nyt nolla? ', score);
-
-  const [name, setName] = useState('');
-  const [scoreSubmitted, setScoreSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  function handleChange(e) {
-    setName(e.target.value);
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-
-    if (scoreSubmitted) {
-      return;
-    }
-
-    try {
-      const res = await axios.post('/api/snakescores', {
-        player: name,
-        points: score,
-      });
-      setName('');
-      setLoading(false);
-      callBack(res.data);
-      setScoreSubmitted(true);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  }
-
-  function submitIsDisabled() {
-    return !name || scoreSubmitted || name.length > 20;
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <p>Congrats, your score is in the top 10!</p>
-      <p>Please add a name for the scoreboard:</p>
-      <input
-        type="text"
-        value={name}
-        onChange={handleChange}
-        placeholder="player name"
-        className={styles.textInput}
-      />
-      <button
-        type="submit"
-        className={styles.btn}
-        disabled={submitIsDisabled()}
-        style={{
-          cursor: submitIsDisabled() ? 'not-allowed' : 'pointer',
-        }}
-      >
-        Save
-      </button>
-      {name.length > 20 && <p>Player name too long!</p>}
-      {loading && (
-        <div style={{ paddingTop: '20px' }}>
-          <DotLoader loading={loading} size={10} color="white" margin={5} />
-        </div>
-      )}
-    </form>
   );
 }
 

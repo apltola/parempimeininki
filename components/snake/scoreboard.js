@@ -1,5 +1,4 @@
-import axios from 'axios';
-import styles from '../styles/SnakeScores.module.css';
+import styles from '../../styles/SnakeScores.module.css';
 
 export default function SnakeScoreboard({ scores }) {
   if (typeof scores === 'undefined') {
