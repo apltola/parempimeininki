@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/Snake.module.css';
 import Scoreboard from '../components/snake/scoreboard';
 import AddNewScore from '../components/snake/addNewScore';
+import { useRouter } from 'next/router';
+import { isMobile } from 'react-device-detect';
 
 export default function Snake(props) {
+  const router = useRouter();
   const canv = useRef();
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -22,6 +25,14 @@ export default function Snake(props) {
   let appleX = 12;
   let appleY = 12;
   let keyDownEvents = [{ direction: 'left', handled: false }];
+
+  useEffect(() => {
+    // doesn't work on mobile...
+    if (isMobile) {
+      router.push('/');
+      return null;
+    }
+  }, []);
 
   useEffect(() => {
     if (!gameStarted || gameOver) {
@@ -231,7 +242,7 @@ export default function Snake(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(ctx) {
   const res = await fetch(`${process.env.BASE_URL}/api/snakescores`);
   const data = await res.json();
 

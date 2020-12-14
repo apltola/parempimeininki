@@ -1,7 +1,17 @@
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
+import { isMobile } from 'react-device-detect';
+import { useState } from 'react';
 
 export default function Home() {
+  const [showSnakeDisclaimer, setShowSnakeDisclaimer] = useState(false);
+
+  function onSnakeMouseEnter() {
+    if (isMobile) {
+      setShowSnakeDisclaimer(true);
+    }
+  }
+
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>This is a website!</h1>
@@ -21,10 +31,19 @@ export default function Home() {
           </a>
         </Link>
 
-        <Link href="/snake">
-          <a className={styles.card}>
+        <Link href={isMobile ? '/' : '/snake'} scroll={isMobile ? false : true}>
+          <a
+            className={styles.card}
+            onMouseEnter={onSnakeMouseEnter}
+            onMouseLeave={() => setShowSnakeDisclaimer(false)}
+          >
             <h3>🐍 Snake &rarr;</h3>
             <p>Classic snake game</p>
+            {showSnakeDisclaimer && (
+              <div className={styles.error}>
+                Snake game is not compatible with mobile devices :/
+              </div>
+            )}
           </a>
         </Link>
       </div>

@@ -55,6 +55,15 @@
   line-height: 1.5;
 }
 
+.relative {
+  position: relative;
+}
+
+.error {
+  color: #e3170a;
+  padding-top: 10px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
