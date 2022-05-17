@@ -15,6 +15,7 @@
   left: -30px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   cursor: default;
+  pointer-events: none;
 }
 
 .linkContainer {

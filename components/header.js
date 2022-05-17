@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Header() {
   const str =
-    'parempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininki';
+    'parempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininkiparempimeininki';
 
   const router = useRouter();
 
