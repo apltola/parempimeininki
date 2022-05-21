@@ -1,0 +1,110 @@
+.container {
+  padding: 1em;
+}
+
+.cardContainer {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  max-width: 425px;
+  margin-bottom: 1em;
+  margin: 0 auto;
+}
+
+.cardContainer .card:not(:last-child) {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.card {
+  height: 80px;
+  width: 80px;
+  cursor: default;
+  text-transform: uppercase;
+}
+
+/* This container is needed to position the front and back side */
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+.cardInner[i='0'] {
+  transition-delay: 0s;
+}
+.cardInner[i='1'] {
+  transition-delay: 0.25s;
+}
+.cardInner[i='2'] {
+  transition-delay: 0.5s;
+}
+.cardInner[i='3'] {
+  transition-delay: 0.75s;
+}
+.cardInner[i='4'] {
+  transition-delay: 1s;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.card[flip='true'] .cardInner {
+  transform: rotateX(180deg);
+}
+
+/* Position the front and back side */
+.cardFront,
+.cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 48px;
+}
+
+/* Style the front side (fallback if image is missing) */
+.cardFront {
+  background-color: #28282a;
+  color: white;
+}
+
+/* Style the back side */
+.cardBack {
+  color: white;
+  transform: rotateX(180deg);
+}
+
+.cardBack[color='gray'] {
+  background-color: rgb(58, 58, 60);
+}
+
+.cardBack[color='yellow'] {
+  background-color: rgb(181, 159, 59);
+}
+
+.cardBack[color='green'] {
+  background-color: rgb(83, 141, 78);
+}
+
+.formi {
+  padding-top: 1em;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .cardContainer {
+    width: 225px;
+  }
+
+  .card {
+    height: 40px;
+    width: 40px;
+  }
+}
