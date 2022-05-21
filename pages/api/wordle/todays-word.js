@@ -5,6 +5,11 @@ async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end();
   }
+  console.log('host', process.env.PGHOST);
+  console.log('user', process.env.PGUSER);
+  console.log('pass', process.env.PGPASSWORD);
+  console.log('port', process.env.PGPORT);
+  console.log('db', process.env.PGDATABASE);
   console.log('todays word enpoint');
   const todaysDateString = new Date().toISOString().slice(0, 10);
 
