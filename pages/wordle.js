@@ -101,6 +101,7 @@ function Wordle() {
     (async function setup() {
       const { word: correctWord } = (await axios.get('/api/wordle/todays-word')).data; // prettier-ignore
       setCorrectWord(correctWord);
+      console.log(correctWord);
 
       const { guessedWords: alreadyGuessed } = (await axios.get('/api/wordle/guessed-words')).data; // prettier-ignore
       if (alreadyGuessed) {
