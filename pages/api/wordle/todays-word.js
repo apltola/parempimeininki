@@ -16,7 +16,7 @@ async function handler(req, res) {
   pool
     .query(`SELECT word FROM wordle WHERE date = $1`, [todaysDateString])
     .then((res) => {
-      console.log(res);
+      console.log('db res --> ', res);
     });
 
   res.status(200).json({ word: 'hihna' });
