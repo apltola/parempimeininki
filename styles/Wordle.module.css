@@ -97,6 +97,10 @@
   text-align: center;
 }
 
+.formi input {
+  font-size: 16px;
+}
+
 @media (max-width: 768px) {
   .cardContainer {
     width: 225px;

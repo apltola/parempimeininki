@@ -33,7 +33,7 @@ function Wordle() {
   }, []);
 
   const handleEnteredWordChange = (event) => {
-    if (rowIndex > 5 || ['WON', 'LOST'].includes(gameStatus)) return;
+    if (rowIndex > 5) return;
 
     const {
       target: { value },
