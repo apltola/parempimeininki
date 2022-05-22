@@ -31,6 +31,13 @@ export default function Home() {
           </a>
         </Link>
 
+        <Link href="/wordle">
+          <a className={styles.card}>
+            <h3>🟩 Wordle &rarr;</h3>
+            <p>Wordle with Finnish words</p>
+          </a>
+        </Link>
+
         <Link href={isMobile ? '/' : '/snake'} scroll={isMobile ? false : true}>
           <a
             className={styles.card}
