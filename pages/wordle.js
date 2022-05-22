@@ -19,15 +19,22 @@ function Wordle() {
 
   useEffect(() => {
     (async function setup() {
-      const { word: correctWord } = (await axios.get('/api/wordle/todays-word')).data; // prettier-ignore
-      setCorrectWord(correctWord);
-
-      const { session } = (await axios.get('/api/wordle/session')).data; // prettier-ignore
-      if (session) {
-        setGuessedWords(session.guessedWords);
-        setRowIndex(session.rowIndex);
-        setGameStatus(session.gameStatus);
-      }
+      await Promise.all([
+        axios.get('/api/wordle/todays-word'),
+        axios.get('/api/wordle/session'),
+      ]).then((responses) => {
+        responses.forEach((res) => {
+          const { word, session } = res.data;
+          if (word) {
+            setCorrectWord(word);
+          }
+          if (session) {
+            setGuessedWords(session.guessedWords);
+            setRowIndex(session.rowIndex);
+            setGameStatus(session.gameStatus);
+          }
+        });
+      });
       setLoading(false);
     })();
   }, []);
