@@ -13,11 +13,12 @@ async function handler(req, res) {
   console.log('todays word enpoint');
   const todaysDateString = new Date().toISOString().slice(0, 10);
 
-  pool
-    .query(`SELECT word FROM wordle WHERE date = $1`, [todaysDateString])
-    .then((res) => {
-      console.log('db res --> ', res);
-    });
+  const {
+    rows: [row],
+  } = await pool.query(`SELECT word FROM wordle WHERE date = $1`, [
+    todaysDateString,
+  ]);
+  console.log('löytyks --> ', word);
 
   res.status(200).json({ word: 'hihna' });
 }
