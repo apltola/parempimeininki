@@ -124,7 +124,10 @@ function Wordle() {
         </form>
       )}
       {gameStatus === 'WON' && (
-        <p className={styles.textCenter}>✅ Uusi sana huomenna!</p>
+        <p className={styles.textCenter}>✅ Voitit! Uusi sana huomenna!</p>
+      )}
+      {gameStatus === 'LOST' && (
+        <p className={styles.textCenter}>❌ Hävisit! Uusi sana huomenna!</p>
       )}
     </div>
   );
