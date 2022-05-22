@@ -1,5 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 import cookie from 'cookie';
+import { setCookies } from 'cookies-next';
 
 // const postHandler = (req, res) => {
 //   if (req.method !== 'POST') {
@@ -41,23 +42,26 @@ import cookie from 'cookie';
 //   }
 // };
 
+const getTomorrowsDateString = () =>
+  new Date(new Date().setDate(new Date().getDate() + 1))
+    .toISOString()
+    .slice(0, 10);
+
 async function handler(req, res) {
   if (req.method === 'POST') {
     const { guessedWords } = req.body;
     console.log('posted guessedWords:', guessedWords);
-    console.log('res is undefined?? ', res);
-    const token = jsonwebtoken.sign({ guessedWords }, process.env.JWT_SECRET);
 
-    res
-      .status(200)
-      // .setHeader(
-      //   'Set-Cookie',
-      //   cookie.serialize('token', token, {
-      //     path: '/',
-      //     httpOnly: true,
-      //   })
-      // )
-      .end();
+    const token = jsonwebtoken.sign({ guessedWords }, process.env.JWT_SECRET);
+    const tomorrow = getTomorrowsDateString();
+
+    setCookies('token', token, {
+      req,
+      res,
+      expires: new Date(`${tomorrow}T00:00:00.000Z`),
+    });
+
+    res.status(200).end();
   } else if (req.method === 'GET') {
     const { token } = req.cookies;
     console.log('token ==> ', token);
