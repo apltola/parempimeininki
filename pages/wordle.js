@@ -35,10 +35,7 @@ function Wordle() {
   const handleEnteredWordChange = (event) => {
     if (rowIndex > 5) return;
 
-    const {
-      target: { value },
-    } = event;
-
+    const value = event.target.value.toLowerCase();
     const currentWord = guessedWords[rowIndex];
     if (currentWord.length < 5 || value.length < currentWord.length) {
       setGuessedWords((prev) => ({
