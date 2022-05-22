@@ -50,13 +50,13 @@ async function handler(req, res) {
 
     res
       .status(200)
-      .setHeader(
-        'Set-Cookie',
-        cookie.serialize('token', token, {
-          path: '/',
-          httpOnly: true,
-        })
-      )
+      // .setHeader(
+      //   'Set-Cookie',
+      //   cookie.serialize('token', token, {
+      //     path: '/',
+      //     httpOnly: true,
+      //   })
+      // )
       .end();
   } else if (req.method === 'GET') {
     const { token } = req.cookies;
