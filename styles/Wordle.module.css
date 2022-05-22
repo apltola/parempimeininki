@@ -23,7 +23,6 @@
   text-transform: uppercase;
 }
 
-/* This container is needed to position the front and back side */
 .cardInner {
   position: relative;
   width: 100%;
@@ -49,12 +48,10 @@
   transition-delay: 1s;
 }
 
-/* Do an horizontal flip when you move the mouse over the flip box container */
 .card[flip='true'] .cardInner {
   transform: rotateX(180deg);
 }
 
-/* Position the front and back side */
 .cardFront,
 .cardBack {
   position: absolute;
@@ -69,13 +66,11 @@
   font-size: 48px;
 }
 
-/* Style the front side (fallback if image is missing) */
 .cardFront {
   background-color: #28282a;
   color: white;
 }
 
-/* Style the back side */
 .cardBack {
   color: white;
   transform: rotateX(180deg);
@@ -106,5 +101,10 @@
   .card {
     height: 40px;
     width: 40px;
+  }
+
+  .cardFront,
+  .cardBack {
+    font-size: 28px;
   }
 }

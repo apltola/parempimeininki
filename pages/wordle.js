@@ -97,6 +97,7 @@ function Wordle() {
     5: '',
   });
   const [rowIndex, setRowIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async function setup() {
@@ -108,8 +109,8 @@ function Wordle() {
         setGuessedWords(session.guessedWords);
         setRowIndex(session.rowIndex);
         setGameStatus(session.gameStatus);
-        // setLoading(false);
       }
+      setLoading(false);
     })();
   }, []);
   const handleEnteredWordChange = (event) => {
@@ -140,7 +141,6 @@ function Wordle() {
 
   const handleWordEnter = (event) => {
     event.preventDefault();
-    // if (rowIndex > 5 || guessedWords[rowIndex].length !== 5) return;
     const status = getGameStatus();
     axios.post('/api/wordle/session', {
       guessedWords,
@@ -189,18 +189,22 @@ function Wordle() {
           correctWord={correctWord}
         />
       </div>
-      <form className={styles.formi} onSubmit={handleWordEnter}>
-        <input
-          type="text"
-          value={guessedWords[rowIndex] || ''}
-          onChange={handleEnteredWordChange}
-          autoFocus={true}
-          disabled={shouldDisableInput()}
-        />
-        <button type="submit" disabled={shouldDisableInput()}>
-          Enter
-        </button>
-      </form>
+      {loading ? (
+        <p style={{ textAlign: 'center' }}>Loading...</p>
+      ) : (
+        <form className={styles.formi} onSubmit={handleWordEnter}>
+          <input
+            type="text"
+            value={guessedWords[rowIndex] || ''}
+            onChange={handleEnteredWordChange}
+            autoFocus={true}
+            disabled={shouldDisableInput()}
+          />
+          <button type="submit" disabled={shouldDisableInput()}>
+            Enter
+          </button>
+        </form>
+      )}
     </div>
   );
 }
