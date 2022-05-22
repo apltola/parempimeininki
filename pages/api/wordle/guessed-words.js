@@ -1,80 +1,56 @@
 import jsonwebtoken from 'jsonwebtoken';
-import cookie from 'cookie';
 import { setCookies } from 'cookies-next';
-
-// const postHandler = (req, res) => {
-//   if (req.method !== 'POST') {
-//     return res.status(405).end();
-//   }
-
-//   const { guessedWords } = req.body;
-//   console.log(guessedWords);
-//   const token = jsonwebtoken.sign({ guessedWords }, process.env.JWT_SECRET);
-
-//   res
-//     .status(200)
-//     .setHeader(
-//       'Set-Cookie',
-//       cookie.serialize('token', token, {
-//         path: '/',
-//         httpOnly: true,
-//       })
-//     )
-//     .end();
-// };
-
-// const getHandler = (req, res) => {
-//   if (req.method !== 'GET') {
-//     return res.status(405).end();
-//   }
-
-//   const { token } = req.cookies;
-//   console.log('token ==> ', token);
-//   if (!token) {
-//     return res.status(200).json({ guessedWords: null });
-//   }
-
-//   try {
-//     const guessedWords = jsonwebtoken.verify(token, process.env.JWT_SECRET);
-//     res.status(200).json(guessedWords);
-//   } catch (error) {
-//     res.status(403).json({ guessedWords: null });
-//   }
-// };
 
 const getTomorrowsDateString = () =>
   new Date(new Date().setDate(new Date().getDate() + 1))
     .toISOString()
     .slice(0, 10);
 
+const postHandler = (req, res) => {
+  if (req.method !== 'POST') {
+    return res.status(405).end();
+  }
+
+  const { guessedWords } = req.body;
+  const token = jsonwebtoken.sign({ guessedWords }, process.env.JWT_SECRET);
+  console.log('posted guessedWords:', guessedWords);
+
+  setCookies('wordlesession', token, {
+    req,
+    res,
+    expires: new Date(`${getTomorrowsDateString()}T00:00:00.000Z`),
+  });
+
+  res.status(200).end();
+};
+
+const getHandler = (req, res) => {
+  if (req.method !== 'GET') {
+    return res.status(405).end();
+  }
+
+  const { wordlesession } = req.cookies;
+  console.log('wordlesession ==> ', wordlesession);
+  if (!wordlesession) {
+    return res.status(200).json({ guessedWords: null });
+  }
+
+  try {
+    const guessedWords = jsonwebtoken.verify(
+      wordlesession,
+      process.env.JWT_SECRET
+    );
+    res.status(200).json(guessedWords);
+  } catch (error) {
+    res.status(403).json({ guessedWords: null });
+  }
+};
+
 async function handler(req, res) {
   if (req.method === 'POST') {
-    const { guessedWords } = req.body;
-    console.log('posted guessedWords:', guessedWords);
-
-    const token = jsonwebtoken.sign({ guessedWords }, process.env.JWT_SECRET);
-    const tomorrow = getTomorrowsDateString();
-
-    setCookies('token', token, {
-      req,
-      res,
-      expires: new Date(`${tomorrow}T00:00:00.000Z`),
-    });
-
-    res.status(200).end();
+    postHandler(req, res);
   } else if (req.method === 'GET') {
-    const { token } = req.cookies;
-    console.log('token ==> ', token);
-    if (!token) {
-      return res.status(200).json({ guessedWords: null });
-    }
-
-    try {
-      const guessedWords = jsonwebtoken.verify(token, process.env.JWT_SECRET);
-      res.status(200).json(guessedWords);
-    } catch (error) {
-      res.status(403).json({ guessedWords: null });
-    }
+    getHandler(req, res);
   }
 }
 
