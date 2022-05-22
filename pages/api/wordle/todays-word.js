@@ -19,7 +19,7 @@ async function handler(req, res) {
   ]);
   console.log('löytyks --> ', row);
 
-  res.status(200).json({ word: 'hihna' });
+  res.status(200).json({ word: row.word });
 }
 
 export default handler;

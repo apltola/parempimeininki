@@ -44,7 +44,8 @@ import cookie from 'cookie';
 async function handler(req, res) {
   if (req.method === 'POST') {
     const { guessedWords } = req.body;
-    console.log(guessedWords);
+    console.log('posted guessedWords:', guessedWords);
+    console.log('res is undefined?? ', res);
     const token = jsonwebtoken.sign({ guessedWords }, process.env.JWT_SECRET);
 
     res
