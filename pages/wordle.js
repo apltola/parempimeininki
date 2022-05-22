@@ -87,6 +87,7 @@ function CardRow({ enteredWord, flip, correctWord }) {
 
 function Wordle() {
   const [correctWord, setCorrectWord] = useState('');
+  const [gameStatus, setGameStatus] = useState('');
   const [guessedWords, setGuessedWords] = useState({
     0: '',
     1: '',
@@ -101,45 +102,57 @@ function Wordle() {
     (async function setup() {
       const { word: correctWord } = (await axios.get('/api/wordle/todays-word')).data; // prettier-ignore
       setCorrectWord(correctWord);
-      console.log(correctWord);
 
-      const { guessedWords: alreadyGuessed } = (await axios.get('/api/wordle/guessed-words')).data; // prettier-ignore
-      if (alreadyGuessed) {
-        setGuessedWords(alreadyGuessed);
-        // Get index of next word to guess
-        const unsolvedRows = Object.entries(alreadyGuessed).filter(
-          ([, val]) => !val
-        );
-        if (unsolvedRows[0]) {
-          setRowIndex(parseInt(unsolvedRows[0][0]));
-        } else {
-          setRowIndex(6); // kinda hacky
-        }
+      const { session } = (await axios.get('/api/wordle/session')).data; // prettier-ignore
+      if (session) {
+        setGuessedWords(session.guessedWords);
+        setRowIndex(session.rowIndex);
+        setGameStatus(session.gameStatus);
+        // setLoading(false);
       }
     })();
   }, []);
-
   const handleEnteredWordChange = (event) => {
-    if (rowIndex > 5) return;
+    if (rowIndex > 5 || ['WON', 'LOST'].includes(gameStatus)) return;
 
     const {
       target: { value },
     } = event;
 
-    const i = rowIndex;
-    if (guessedWords[i].length < 5 || value.length < guessedWords[i].length) {
+    const currentWord = guessedWords[rowIndex];
+    if (currentWord.length < 5 || value.length < currentWord.length) {
       setGuessedWords((prev) => ({
         ...prev,
-        [i]: value,
+        [parseInt(rowIndex)]: value,
       }));
     }
   };
 
+  const getGameStatus = () => {
+    const guesses = Object.entries(guessedWords)
+      .map(([, val]) => val)
+      .filter((x) => x);
+
+    if (guesses.includes(correctWord)) return 'WON';
+    if (guesses.length === 6 && !guesses.includes(correctWord)) return 'LOST';
+    return 'IN_PROGRESS';
+  };
+
   const handleWordEnter = (event) => {
     event.preventDefault();
-    if (guessedWords[rowIndex].length !== 5) return;
-    axios.post('/api/wordle/guessed-words', { guessedWords });
+    // if (rowIndex > 5 || guessedWords[rowIndex].length !== 5) return;
+    const status = getGameStatus();
+    axios.post('/api/wordle/session', {
+      guessedWords,
+      rowIndex: rowIndex + 1,
+      gameStatus: status,
+    });
     setRowIndex((prev) => prev + 1);
+    setGameStatus(status);
+  };
+
+  const shouldDisableInput = () => {
+    return ['WON', 'LOST'].includes(gameStatus);
   };
 
   return (
@@ -182,8 +195,11 @@ function Wordle() {
           value={guessedWords[rowIndex] || ''}
           onChange={handleEnteredWordChange}
           autoFocus={true}
+          disabled={shouldDisableInput()}
         />
-        <button type="submit">Enter</button>
+        <button type="submit" disabled={shouldDisableInput()}>
+          Enter
+        </button>
       </form>
     </div>
   );

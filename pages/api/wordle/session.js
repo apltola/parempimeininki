@@ -1,4 +1,4 @@
-import jsonwebtoken from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { setCookies } from 'cookies-next';
 
 const getTomorrowsDateString = () =>
@@ -11,9 +11,11 @@ const postHandler = (req, res) => {
     return res.status(405).end();
   }
 
-  const { guessedWords } = req.body;
-  const token = jsonwebtoken.sign({ guessedWords }, process.env.JWT_SECRET);
-  console.log('posted guessedWords:', guessedWords);
+  const { guessedWords, rowIndex, gameStatus } = req.body;
+  const token = jwt.sign(
+    { guessedWords, rowIndex, gameStatus },
+    process.env.JWT_SECRET
+  );
 
   setCookies('wordlesession', token, {
     req,
@@ -30,19 +32,15 @@ const getHandler = (req, res) => {
   }
 
   const { wordlesession } = req.cookies;
-  console.log('wordlesession ==> ', wordlesession);
   if (!wordlesession) {
-    return res.status(200).json({ guessedWords: null });
+    return res.status(200).json({ session: null });
   }
 
   try {
-    const guessedWords = jsonwebtoken.verify(
-      wordlesession,
-      process.env.JWT_SECRET
-    );
-    res.status(200).json(guessedWords);
+    const session = jwt.verify(wordlesession, process.env.JWT_SECRET);
+    res.status(200).json({ session });
   } catch (error) {
-    res.status(403).json({ guessedWords: null });
+    res.status(403).json({ session: null });
   }
 };
 
