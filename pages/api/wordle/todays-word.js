@@ -10,7 +10,6 @@ async function handler(req, res) {
   console.log('pass', process.env.PGPASSWORD);
   console.log('port', process.env.PGPORT);
   console.log('db', process.env.PGDATABASE);
-  console.log('todays word enpoint');
   const todaysDateString = new Date().toISOString().slice(0, 10);
 
   const {
@@ -18,7 +17,7 @@ async function handler(req, res) {
   } = await pool.query(`SELECT word FROM wordle WHERE date = $1`, [
     todaysDateString,
   ]);
-  console.log('löytyks --> ', word);
+  console.log('löytyks --> ', row);
 
   res.status(200).json({ word: 'hihna' });
 }
