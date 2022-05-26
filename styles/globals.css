@@ -33,3 +33,28 @@ button {
 * {
   box-sizing: border-box;
 }
+
+.simple-keyboard.myTheme1 {
+  background-color: transparent;
+}
+
+.simple-keyboard.myTheme1 .hg-button {
+  background: #818384;
+  color: white;
+  font-weight: 600;
+  height: 50px;
+  text-transform: uppercase;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-disabled {
+  opacity: 0.22;
+  cursor: default;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-green {
+  background: rgb(83, 141, 78);
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-yellow {
+  background: rgb(181, 159, 59);
+}

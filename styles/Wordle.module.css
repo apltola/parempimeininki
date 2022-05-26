@@ -93,12 +93,8 @@
 }
 
 .formi {
-  padding-top: 1em;
-  text-align: center;
-}
-
-.formi input {
-  font-size: 16px;
+  height: 0;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -115,4 +111,19 @@
   .cardBack {
     font-size: 28px;
   }
+}
+
+.keyboardContainer {
+  width: 100%;
+  max-width: 500px;
+  margin: 2em auto 0;
+}
+
+.input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  width: 0;
+  height: 0;
+  color: transparent;
 }

@@ -16,10 +16,11 @@
     "next": "9.5.3",
     "nprogress": "^0.2.0",
     "pg": "8.7.3",
-    "react": "16.13.1",
+    "react": "^16.14.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-device-detect": "^1.14.0",
-    "react-dom": "16.13.1",
+    "react-dom": "^16.14.0",
+    "react-simple-keyboard": "3.4.134",
     "react-spinners": "^0.9.0"
   }
 }

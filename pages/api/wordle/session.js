@@ -11,9 +11,16 @@ const postHandler = (req, res) => {
     return res.status(405).end();
   }
 
-  const { guessedWords, rowIndex, gameStatus } = req.body;
+  const {
+    guessedWords,
+    rowIndex,
+    gameStatus,
+    greenKeys,
+    yellowKeys,
+    disabledKeys,
+  } = req.body;
   const token = jwt.sign(
-    { guessedWords, rowIndex, gameStatus },
+    { guessedWords, rowIndex, gameStatus, greenKeys, yellowKeys, disabledKeys },
     process.env.JWT_SECRET
   );
 

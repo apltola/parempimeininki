@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../../styles/Wordle.module.css';
 import Card from './card';
 
-function CardRow({ enteredWord, flip, correctWord }) {
+function CardRow({ enteredWord, shouldFlip, correctWord }) {
   const getColor = (letter, i) => {
     if (correctWord[i] === letter) return 'green';
 
@@ -36,35 +36,35 @@ function CardRow({ enteredWord, flip, correctWord }) {
       <Card
         frontText={enteredWord[0]}
         backText={enteredWord[0]}
-        flip={flip}
+        flip={shouldFlip}
         i={'0'}
         color={getColor(enteredWord[0], 0)}
       />
       <Card
         frontText={enteredWord[1]}
         backText={enteredWord[1]}
-        flip={flip}
+        flip={shouldFlip}
         i={'1'}
         color={getColor(enteredWord[1], 1)}
       />
       <Card
         frontText={enteredWord[2]}
         backText={enteredWord[2]}
-        flip={flip}
+        flip={shouldFlip}
         i={'2'}
         color={getColor(enteredWord[2], 2)}
       />
       <Card
         frontText={enteredWord[3]}
         backText={enteredWord[3]}
-        flip={flip}
+        flip={shouldFlip}
         i={'3'}
         color={getColor(enteredWord[3], 3)}
       />
       <Card
         frontText={enteredWord[4]}
         backText={enteredWord[4]}
-        flip={flip}
+        flip={shouldFlip}
         i={'4'}
         color={getColor(enteredWord[4], 4)}
       />

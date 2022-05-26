@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import 'react-simple-keyboard/build/css/index.css';
 import Header from '../components/header';
 import Head from 'next/head';
 import { Router } from 'next/router';
