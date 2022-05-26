@@ -38,7 +38,6 @@ function Wordle() {
             setCorrectWord(word);
           }
           if (session) {
-            console.log('session.rowIndex', session.rowIndex);
             setGuessedWords(session.guessedWords);
             setRowIndex(session.rowIndex);
             setGameStatus(session.gameStatus);
@@ -56,7 +55,7 @@ function Wordle() {
   }, []);
 
   const handleEnteredWordChange = (event) => {
-    if (rowIndex > 5) return;
+    if (rowIndex > 5 || gameStatus === 'WON') return;
 
     const value = event.target.value.toLowerCase();
     const currentWord = guessedWords[rowIndex];
@@ -80,8 +79,9 @@ function Wordle() {
 
   const handleWordEnter = (event) => {
     event.preventDefault();
-    const currentWord = guessedWords[rowIndex];
     if (guessedWords[rowIndex].length !== 5) return;
+
+    const currentWord = guessedWords[rowIndex];
 
     const greens = currentWord.split('').filter((l, i) => correctWord[i] === l);
     const newGreenKeys = greenKeys.concat(' ' + greens.join(' '));
@@ -118,12 +118,7 @@ function Wordle() {
     setGameStatus(status);
   };
 
-  const shouldDisableInput = () => {
-    return ['WON', 'LOST'].includes(gameStatus);
-  };
-
   const onKeyboardKeyPress = (key) => {
-    console.log('key', key);
     if (key === '{ent}') {
       return handleWordEnter({
         preventDefault: () => 'hack',
@@ -183,10 +178,9 @@ function Wordle() {
             type="text"
             value={guessedWords[rowIndex] || ''}
             onChange={handleEnteredWordChange}
-            disabled={shouldDisableInput()}
             ref={inputRef}
           />
-          <button type="submit" hidden={true} disabled={shouldDisableInput()}>
+          <button type="submit" hidden={true}>
             Enter
           </button>
         </form>
