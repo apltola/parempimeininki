@@ -55,7 +55,7 @@ function Wordle() {
   }, []);
 
   const handleEnteredWordChange = (event) => {
-    if (rowIndex > 5 || gameStatus === 'WON') return;
+    if (rowIndex > 5 || ['WON', 'LOST'].includes(gameStatus)) return;
 
     const value = event.target.value.toLowerCase();
     const currentWord = guessedWords[rowIndex];
@@ -172,18 +172,44 @@ function Wordle() {
       {loading ? (
         <p className={styles.textCenter}>Loading...</p>
       ) : (
-        <form className={styles.formi} onSubmit={handleWordEnter}>
-          <input
-            className={styles.input}
-            type="text"
-            value={guessedWords[rowIndex] || ''}
-            onChange={handleEnteredWordChange}
-            ref={inputRef}
-          />
-          <button type="submit" hidden={true}>
-            Enter
-          </button>
-        </form>
+        <React.Fragment>
+          <form className={styles.formi} onSubmit={handleWordEnter}>
+            <input
+              className={styles.input}
+              type="text"
+              value={guessedWords[rowIndex] || ''}
+              onChange={handleEnteredWordChange}
+              ref={inputRef}
+            />
+            <button type="submit" hidden={true}>
+              Enter
+            </button>
+          </form>
+          <div className={styles.keyboardContainer}>
+            <Keyboard
+              onKeyPress={onKeyboardKeyPress}
+              mergeDisplay={true}
+              layoutName="default"
+              layout={{
+                default: [
+                  'q w e r t y u i o p å',
+                  'a s d f g h j k l ö ä',
+                  '{ent} z x c v b n m {backspace}',
+                ],
+              }}
+              display={{
+                '{ent}': 'enter',
+                '{backspace}': '⌫',
+              }}
+              theme={'hg-theme-default myTheme1'}
+              buttonTheme={[
+                { class: 'hg-disabled', buttons: disabledKeys },
+                { class: 'hg-yellow', buttons: yellowKeys },
+                { class: 'hg-green', buttons: greenKeys },
+              ]}
+            />
+          </div>
+        </React.Fragment>
       )}
       {gameStatus === 'WON' && (
         <p className={styles.textCenter}>✅ Voitit! Uusi sana huomenna!</p>
@@ -191,30 +217,6 @@ function Wordle() {
       {gameStatus === 'LOST' && (
         <p className={styles.textCenter}>❌ Hävisit! Uusi sana huomenna!</p>
       )}
-      <div className={styles.keyboardContainer}>
-        <Keyboard
-          onKeyPress={onKeyboardKeyPress}
-          mergeDisplay={true}
-          layoutName="default"
-          layout={{
-            default: [
-              'q w e r t y u i o p å',
-              'a s d f g h j k l ö ä',
-              '{ent} z x c v b n m {backspace}',
-            ],
-          }}
-          display={{
-            '{ent}': 'enter',
-            '{backspace}': '⌫',
-          }}
-          theme={'hg-theme-default myTheme1'}
-          buttonTheme={[
-            { class: 'hg-disabled', buttons: disabledKeys },
-            { class: 'hg-yellow', buttons: yellowKeys },
-            { class: 'hg-green', buttons: greenKeys },
-          ]}
-        />
-      </div>
     </div>
   );
 }
