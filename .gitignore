@@ -34,3 +34,5 @@ yarn-error.log*
 .vercel
 
 temp.js
+
+postman.http

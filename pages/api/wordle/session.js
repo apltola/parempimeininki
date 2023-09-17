@@ -6,7 +6,7 @@ const getTomorrowsDateString = () =>
     .toISOString()
     .slice(0, 10);
 
-const postHandler = (req, res) => {
+async function postHandler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).end();
   }
@@ -19,6 +19,7 @@ const postHandler = (req, res) => {
     yellowKeys,
     disabledKeys,
   } = req.body;
+
   const token = jwt.sign(
     { guessedWords, rowIndex, gameStatus, greenKeys, yellowKeys, disabledKeys },
     process.env.JWT_SECRET,
@@ -31,9 +32,9 @@ const postHandler = (req, res) => {
   });
 
   res.status(200).end();
-};
+}
 
-const getHandler = (req, res) => {
+async function getHandler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end();
   }
@@ -49,7 +50,7 @@ const getHandler = (req, res) => {
   } catch (error) {
     res.status(403).json({ session: null });
   }
-};
+}
 
 async function handler(req, res) {
   if (req.method === 'POST') {

@@ -14,8 +14,6 @@ export default function Home() {
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.title}>This is a website!</h1>
-
       <div className={styles.grid}>
         <Link href="/typing">
           <a className={styles.card}>

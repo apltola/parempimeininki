@@ -21,13 +21,14 @@ export default function AddNewScore({ score, callBack }) {
     }
 
     try {
-      const res = await axios.post('/api/snakescores', {
+      await axios.post('/api/snake/scores', {
         player: name,
         points: score,
       });
+      const topTen = (await axios.get('/api/snake/scores/topten')).data;
       setName('');
       setLoading(false);
-      callBack(res.data);
+      callBack(topTen);
       setScoreSubmitted(true);
     } catch (error) {
       console.log(error);
@@ -49,6 +50,7 @@ export default function AddNewScore({ score, callBack }) {
         onChange={handleChange}
         placeholder="player name"
         className={textInput}
+        disabled={scoreSubmitted}
       />
       <button
         type="submit"

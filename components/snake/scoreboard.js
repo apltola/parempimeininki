@@ -14,9 +14,9 @@ export default function SnakeScoreboard({ scores }) {
             <th className={styles.playerCol}>Player</th>
             <th>Score</th>
           </tr>
-          {scores.map(({ _id, player, points }, idx) => {
+          {scores.map(({ id, player, points }, idx) => {
             return (
-              <tr key={_id}>
+              <tr key={id}>
                 <td className={styles.positionCol}>{idx + 1}</td>
                 <td className={styles.playerCol}>{player}</td>
                 <td>{points}</td>

@@ -8,12 +8,14 @@ import { isMobile } from 'react-device-detect';
 export default function Snake(props) {
   const router = useRouter();
   const canvas = useRef();
-  const [gameStarted, setGameStarted] = useState(false);
+  const [gameStarted, setGameStarted] = useState(true);
   const [gameOver, setGameOver] = useState(false);
-  const [scoreIsTopTen, setScoreIsTopTen] = useState(false);
-  const [scoresList, setScoresList] = useState(props.scoresList);
-  const [score, setScore] = useState(0); // score for dom
-  let _score = 0; // score for component reference
+  const [topTenScores, setTopTenScores] = useState(props.topTenScores);
+  const [scoreIsInTopTen, setScoreIsInTopTen] = useState(false);
+
+  const [score, setScore] = useState(0); // Stateful score for DOM
+  let _score = 0; // Score for component reference
+
   let posX = 10;
   let posY = 10;
   let velocityX = -1;
@@ -39,7 +41,7 @@ export default function Snake(props) {
     }
 
     document.addEventListener('keydown', handleKeyDown, true);
-    const interval = setInterval(runGame, 100);
+    const interval = setInterval(paintCanvas, 100);
     return () => {
       document.removeEventListener('keydown', handleKeyDown, true);
       clearInterval(interval);
@@ -47,6 +49,7 @@ export default function Snake(props) {
   }, [gameStarted, gameOver]);
 
   function handleKeyDown(event) {
+    console.log('keydownEvents:', keyDownEvents);
     switch (event.keyCode) {
       case 37: // arrow left
         keyDownEvents.push({ direction: 'left', handled: false });
@@ -63,19 +66,19 @@ export default function Snake(props) {
     }
   }
 
-  function runGame() {
+  function paintCanvas() {
     if (!canvas.current) {
       return;
     }
 
     setSnakePosition();
 
-    // paint black background for canvas
+    // Paint black background for canvas
     const ctx = canvas.current.getContext('2d');
     ctx.fillStyle = '#2A2D34';
     ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
 
-    // paint snake
+    // Paint snake
     ctx.fillStyle = '#20FC8F';
     for (let i = 0; i < trail.length; i++) {
       const element = trail[i];
@@ -85,6 +88,8 @@ export default function Snake(props) {
         tileSize - 1,
         tileSize - 1,
       );
+
+      // If snake eats itself, end game
       if (element.x == posX && element.y == posY) {
         console.log('GAME OVER');
         handleGameOver();
@@ -96,7 +101,7 @@ export default function Snake(props) {
       trail.shift();
     }
 
-    // paint apple in random location
+    // Handle eating of apple
     if (appleX === posX && appleY == posY) {
       tail++;
       appleX = Math.floor(Math.random() * tileCount);
@@ -124,24 +129,28 @@ export default function Snake(props) {
     }
 
     switch (eventToProcess.direction) {
+      // Turn snake left if it isn't going right
       case 'left':
         if (velocityX !== 1) {
           velocityX = -1;
           velocityY = 0;
         }
         break;
+      // Turn snake up if it isn't going down
       case 'up':
         if (velocityY !== 1) {
           velocityX = 0;
           velocityY = -1;
         }
         break;
+      // Turn snake right if it isn't going left
       case 'right':
         if (velocityX !== -1) {
           velocityX = 1;
           velocityY = 0;
         }
         break;
+      // Turn snake down if it isn't going up
       case 'down':
         if (velocityY !== -1) {
           velocityX = 0;
@@ -150,9 +159,11 @@ export default function Snake(props) {
         break;
     }
 
+    // Set new position for snake
     posX = posX + velocityX;
     posY = posY + velocityY;
 
+    // Handle snake going through walls
     if (posX < 0) {
       posX = tileCount - 1;
     }
@@ -166,71 +177,55 @@ export default function Snake(props) {
       posY = 0;
     }
 
-    // reset events array so heavy looping isn't needed
-    keyDownEvents = [keyDownEvents[keyDownEvents.length - 1]];
+    // After event is processed, delete oldest event to avoid the array growing too large
+    if (keyDownEvents.length > 1) {
+      keyDownEvents.shift();
+    }
   }
 
-  function handleStartGame() {
+  function handleRestartGame() {
     setGameStarted(true);
     setGameOver(false);
     setScore(0);
     _score = 0;
-    setScoreIsTopTen(false);
+    setScoreIsInTopTen(false);
   }
 
   function handleGameOver() {
     setGameOver(true);
 
-    const lowestInTopTen = scoresList[9].points;
-    if (_score > lowestInTopTen) {
-      setScoreIsTopTen(true);
+    const tenthScore = topTenScores[9].points;
+    if (_score > tenthScore) {
+      setScoreIsInTopTen(true);
     }
   }
 
   function renderGameBoard() {
-    if (!gameStarted && !gameOver) {
-      return (
-        <div className={styles.canvasContainer}>
-          <button
-            className={`${styles.btn} ${styles.startButton}`}
-            onClick={handleStartGame}
-          >
-            Start game
-          </button>
-        </div>
-      );
-    } else {
-      return (
-        <div className={styles.canvasContainer}>
-          <div className={styles.score}>Score: {score}</div>
-          <canvas
-            id="snakecanvas"
-            width="400"
-            height="400"
-            ref={canvas}
-          ></canvas>
-          {gameOver && (
-            <div className={styles.gameOverView}>
-              <h2>Game over</h2>
-              {scoreIsTopTen && (
-                <AddNewScore
-                  score={score}
-                  callBack={(scores) => setScoresList(scores)}
-                />
-              )}
-              <div className={styles.restartBtnContainer}>
-                <button
-                  className={`${styles.btn} ${styles.restartButton}`}
-                  onClick={handleStartGame}
-                >
-                  Restart game
-                </button>
-              </div>
+    return (
+      <div className={styles.canvasContainer}>
+        <div className={styles.score}>Score: {score}</div>
+        <canvas id="snakecanvas" width="400" height="400" ref={canvas}></canvas>
+        {gameOver && (
+          <div className={styles.gameOverView}>
+            <h2>Game over</h2>
+            {scoreIsInTopTen && (
+              <AddNewScore
+                score={score}
+                callBack={(scores) => setTopTenScores(scores)}
+              />
+            )}
+            <div className={styles.restartBtnContainer}>
+              <button
+                className={`${styles.btn} ${styles.restartButton}`}
+                onClick={handleRestartGame}
+              >
+                Restart game
+              </button>
             </div>
-          )}
-        </div>
-      );
-    }
+          </div>
+        )}
+      </div>
+    );
   }
 
   return (
@@ -240,7 +235,7 @@ export default function Snake(props) {
           <div className={styles.rowLeft}></div>
           {renderGameBoard()}
           <div className={styles.rowRight}>
-            {gameStarted && <Scoreboard scores={scoresList} />}
+            {gameStarted && <Scoreboard scores={topTenScores} />}
           </div>
         </section>
       )}
@@ -249,10 +244,10 @@ export default function Snake(props) {
 }
 
 export async function getServerSideProps(ctx) {
-  const res = await fetch(`${process.env.BASE_URL}/api/snakescores`);
-  const data = await res.json();
+  const res = await fetch(`${process.env.BASE_URL}/api/snake/scores/topten`);
+  const scores = await res.json();
 
   return {
-    props: { scoresList: data },
+    props: { topTenScores: scores },
   };
 }
