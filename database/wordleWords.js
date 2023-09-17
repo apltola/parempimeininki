@@ -1,5 +1,4 @@
 module.exports = [
-  'aalto',
   'aamen',
   'aarre',
   'aatos',

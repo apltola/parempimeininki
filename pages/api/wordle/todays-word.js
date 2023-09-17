@@ -1,5 +1,4 @@
-import { Pool } from 'pg';
-const pool = new Pool();
+import { sql } from '@vercel/postgres';
 
 async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -7,11 +6,11 @@ async function handler(req, res) {
   }
 
   const todaysDateString = new Date().toISOString().slice(0, 10);
+
   const {
     rows: [row],
-  } = await pool.query(`SELECT word FROM wordle WHERE date = $1`, [
-    todaysDateString,
-  ]);
+  } =
+    await sql`SELECT word FROM wordle WHERE date::date = ${todaysDateString} LIMIT 1;`;
 
   res.status(200).json({ word: row.word });
 }

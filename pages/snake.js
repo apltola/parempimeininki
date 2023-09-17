@@ -7,7 +7,7 @@ import { isMobile } from 'react-device-detect';
 
 export default function Snake(props) {
   const router = useRouter();
-  const canv = useRef();
+  const canvas = useRef();
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [scoreIsTopTen, setScoreIsTopTen] = useState(false);
@@ -27,7 +27,7 @@ export default function Snake(props) {
   let keyDownEvents = [{ direction: 'left', handled: false }];
 
   useEffect(() => {
-    // doesn't work on mobile...
+    // The game doesn't work on mobile...
     if (isMobile) {
       router.push('/');
     }
@@ -64,16 +64,16 @@ export default function Snake(props) {
   }
 
   function runGame() {
-    if (!canv.current) {
+    if (!canvas.current) {
       return;
     }
 
     setSnakePosition();
 
     // paint black background for canvas
-    const ctx = canv.current.getContext('2d');
+    const ctx = canvas.current.getContext('2d');
     ctx.fillStyle = '#2A2D34';
-    ctx.fillRect(0, 0, canv.current.width, canv.current.height);
+    ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
 
     // paint snake
     ctx.fillStyle = '#20FC8F';
@@ -203,7 +203,12 @@ export default function Snake(props) {
       return (
         <div className={styles.canvasContainer}>
           <div className={styles.score}>Score: {score}</div>
-          <canvas id="snakecanvas" width="400" height="400" ref={canv}></canvas>
+          <canvas
+            id="snakecanvas"
+            width="400"
+            height="400"
+            ref={canvas}
+          ></canvas>
           {gameOver && (
             <div className={styles.gameOverView}>
               <h2>Game over</h2>

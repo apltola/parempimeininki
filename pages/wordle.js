@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import CardRow from '../components/wordle/cardRow';
 import styles from '../styles/Wordle.module.css';
@@ -7,6 +7,7 @@ import Keyboard from 'react-simple-keyboard';
 const isLetter = (l) => 'qwertyuiopåasdfghjklöäzxcvbnm'.includes(l);
 
 function Wordle() {
+  const inputRef = useRef();
   const [correctWord, setCorrectWord] = useState('');
   const [gameStatus, setGameStatus] = useState('');
   const [guessedWords, setGuessedWords] = useState({
@@ -22,7 +23,6 @@ function Wordle() {
   const [greenKeys, setGreenKeys] = useState(' ');
   const [yellowKeys, setYellowKeys] = useState(' ');
   const [disabledKeys, setDisabledKeys] = useState(' ');
-  const inputRef = useRef();
 
   useEffect(() => {
     const handleKeyDown = () => inputRef.current.focus();

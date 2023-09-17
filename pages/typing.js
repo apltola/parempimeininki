@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import words from '../lib/words';
+import words from '../database/typingGameWords';
 import styles from '../styles/Typing.module.css';
 
 const TypingGame = () => {

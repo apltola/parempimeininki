@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import lyrics from '../lib/papruLyrics';
+import lyrics from '../database/papruLyrics';
 import shuffle from '../util/shuffleArray';
 import styles from '../styles/Papru.module.css';
 import { CopyToClipboard } from 'react-copy-to-clipboard';

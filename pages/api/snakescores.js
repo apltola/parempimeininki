@@ -1,12 +1,11 @@
-import { connectToDatabase } from '../../lib/db/mongo';
+import { connectToMongoDatabase } from '../../database/mongo';
 
 export default async function (req, res) {
-  const { db } = await connectToDatabase();
+  const { db } = await connectToMongoDatabase();
 
   const collection = await db.collection('snakescores');
 
   if (req.method === 'POST') {
-    // insert new document to collection
     await collection.insert(req.body);
     const scores = await collection
       .find({})
@@ -15,7 +14,6 @@ export default async function (req, res) {
       .toArray();
     res.send(scores);
   } else {
-    // fetch documents from collection
     const scores = await collection
       .find({})
       .sort({ points: -1 })

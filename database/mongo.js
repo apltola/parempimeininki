@@ -17,7 +17,7 @@ if (!MONGODB_DB) {
 let cached = global.mongo;
 if (!cached) cached = global.mongo = {};
 
-export async function connectToDatabase() {
+export async function connectToMongoDatabase() {
   if (cached.conn) return cached.conn;
   if (!cached.promise) {
     const conn = {};
@@ -35,6 +35,8 @@ export async function connectToDatabase() {
         cached.conn = conn;
       });
   }
+
   await cached.promise;
+
   return cached.conn;
 }
