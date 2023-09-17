@@ -1,5 +1,6 @@
 import '../styles/globals.css';
 import 'react-simple-keyboard/build/css/index.css';
+import React from 'react';
 import Header from '../components/header';
 import Head from 'next/head';
 import { Router } from 'next/router';
@@ -12,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   Router.events.on('routeChangeError', () => NProgress.done());
 
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>parempi meininki</title>
       </Head>
@@ -22,7 +23,7 @@ function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
         </main>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

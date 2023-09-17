@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import CardRow from '../components/wordle/cardRow';
 import styles from '../styles/Wordle.module.css';
@@ -93,7 +93,7 @@ function Wordle() {
         (l, i) =>
           correctWord[i] !== l &&
           correctWord.includes(l) &&
-          !greenKeys.concat(greens.join(' ')).includes(l)
+          !greenKeys.concat(greens.join(' ')).includes(l),
       );
     const newYellowKeys = yellowKeys.concat(' ' + yellows.join(' '));
     setYellowKeys(newYellowKeys);
@@ -172,7 +172,7 @@ function Wordle() {
       {loading ? (
         <p className={styles.textCenter}>Loading...</p>
       ) : (
-        <React.Fragment>
+        <Fragment>
           <form className={styles.formi} onSubmit={handleWordEnter}>
             <input
               className={styles.input}
@@ -209,7 +209,7 @@ function Wordle() {
               ]}
             />
           </div>
-        </React.Fragment>
+        </Fragment>
       )}
       {gameStatus === 'WON' && (
         <p className={styles.textCenter}>✅ Voitit! Uusi sana huomenna!</p>

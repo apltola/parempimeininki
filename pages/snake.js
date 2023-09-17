@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import styles from '../styles/Snake.module.css';
 import Scoreboard from '../components/snake/scoreboard';
 import AddNewScore from '../components/snake/addNewScore';
@@ -83,7 +83,7 @@ export default function Snake(props) {
         element.x * tileSize,
         element.y * tileSize,
         tileSize - 1,
-        tileSize - 1
+        tileSize - 1,
       );
       if (element.x == posX && element.y == posY) {
         console.log('GAME OVER');
@@ -109,7 +109,7 @@ export default function Snake(props) {
       appleX * tileSize,
       appleY * tileSize,
       tileSize - 1,
-      tileSize - 1
+      tileSize - 1,
     );
   }
 
@@ -229,7 +229,7 @@ export default function Snake(props) {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       {!isMobile && (
         <section className={styles.container}>
           <div className={styles.rowLeft}></div>
@@ -239,7 +239,7 @@ export default function Snake(props) {
           </div>
         </section>
       )}
-    </React.Fragment>
+    </Fragment>
   );
 }
 

@@ -21,7 +21,7 @@ const postHandler = (req, res) => {
   } = req.body;
   const token = jwt.sign(
     { guessedWords, rowIndex, gameStatus, greenKeys, yellowKeys, disabledKeys },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
   );
 
   setCookies('wordlesession', token, {

@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import styles from '../styles/Header.module.css';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -9,7 +10,7 @@ export default function Header() {
   const router = useRouter();
 
   return (
-    <React.Fragment>
+    <Fragment>
       <header className={styles.header}>
         <div className={styles.text}>{str}</div>
       </header>
@@ -20,6 +21,6 @@ export default function Header() {
           </Link>
         )}
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import styles from '../../styles/Wordle.module.css';
 import Card from './card';
 
@@ -10,20 +10,22 @@ function CardRow({ enteredWord, shouldFlip, correctWord }) {
     const correctLetters = correctWord.split('');
     const enteredLetters = enteredWord.split('');
     const instancesOfCurrentLetterInCorrectWord = correctLetters.filter(
-      (l) => l === letter
+      (l) => l === letter,
     ).length;
     const correctlyPlacedCurrentLetters = enteredLetters.filter(
-      (l, idx) => l === letter && correctLetters[idx] === l
+      (l, idx) => l === letter && correctLetters[idx] === l,
     ).length;
     const enteredWordUpToThisPoint = enteredLetters.slice(0, i + 1);
     const enteredInstancesNotPlacedCorrectly = enteredWordUpToThisPoint.filter(
       (l, idx) =>
-        correctLetters.includes(l) && correctLetters[idx] !== l && l === letter
+        correctLetters.includes(l) && correctLetters[idx] !== l && l === letter,
     );
     if (
       correctWord.includes(letter) &&
       instancesOfCurrentLetterInCorrectWord > correctlyPlacedCurrentLetters &&
-      correctlyPlacedCurrentLetters + enteredInstancesNotPlacedCorrectly.length <= instancesOfCurrentLetterInCorrectWord // prettier-ignore
+      correctlyPlacedCurrentLetters +
+        enteredInstancesNotPlacedCorrectly.length <=
+        instancesOfCurrentLetterInCorrectWord
     ) {
       return 'yellow';
     }
@@ -32,7 +34,7 @@ function CardRow({ enteredWord, shouldFlip, correctWord }) {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Card
         frontText={enteredWord[0]}
         backText={enteredWord[0]}
@@ -68,7 +70,7 @@ function CardRow({ enteredWord, shouldFlip, correctWord }) {
         i={'4'}
         color={getColor(enteredWord[4], 4)}
       />
-    </React.Fragment>
+    </Fragment>
   );
 }
 
