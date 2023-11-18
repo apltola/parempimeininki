@@ -8,7 +8,7 @@ const isLetter = (l) => 'qwertyuiopåasdfghjklöäzxcvbnm'.includes(l);
 
 function Wordle() {
   const inputRef = useRef();
-  const [correctWord, setCorrectWord] = useState('');
+  const [solutionWord, setSolutionWord] = useState('');
   const [gameStatus, setGameStatus] = useState('');
   const [guessedWords, setGuessedWords] = useState({
     0: '',
@@ -18,7 +18,7 @@ function Wordle() {
     4: '',
     5: '',
   });
-  const [rowIndex, setRowIndex] = useState(0);
+  const [currentRowIdx, setCurrentRowIdx] = useState(0);
   const [loading, setLoading] = useState(true);
   const [greenKeys, setGreenKeys] = useState(' ');
   const [yellowKeys, setYellowKeys] = useState(' ');
@@ -35,11 +35,11 @@ function Wordle() {
         responses.forEach((res) => {
           const { word, session } = res.data;
           if (word) {
-            setCorrectWord(word);
+            setSolutionWord(word);
           }
           if (session) {
             setGuessedWords(session.guessedWords);
-            setRowIndex(session.rowIndex);
+            setCurrentRowIdx(session.rowIndex);
             setGameStatus(session.gameStatus);
             setGreenKeys(session.greenKeys);
             setYellowKeys(session.yellowKeys);
@@ -55,14 +55,14 @@ function Wordle() {
   }, []);
 
   const handleEnteredWordChange = (event) => {
-    if (rowIndex > 5 || ['WON', 'LOST'].includes(gameStatus)) return;
+    if (currentRowIdx > 5 || ['WON', 'LOST'].includes(gameStatus)) return;
 
     const value = event.target.value.toLowerCase();
-    const currentWord = guessedWords[rowIndex];
+    const currentWord = guessedWords[currentRowIdx];
     if (currentWord.length < 5 || value.length < currentWord.length) {
       setGuessedWords((prev) => ({
         ...prev,
-        [parseInt(rowIndex)]: value,
+        [parseInt(currentRowIdx)]: value,
       }));
     }
   };
@@ -72,49 +72,51 @@ function Wordle() {
       .map(([, val]) => val)
       .filter((x) => x);
 
-    if (guesses.includes(correctWord)) return 'WON';
-    if (guesses.length === 6 && !guesses.includes(correctWord)) return 'LOST';
+    if (guesses.includes(solutionWord)) return 'WON';
+    if (guesses.length === 6 && !guesses.includes(solutionWord)) return 'LOST';
     return 'IN_PROGRESS';
   };
 
   const handleWordEnter = (event) => {
     event.preventDefault();
-    if (guessedWords[rowIndex].length !== 5) return;
 
-    const currentWord = guessedWords[rowIndex];
+    const guessedWord = guessedWords[currentRowIdx];
+    if (guessedWord.length !== 5) return;
 
-    const greens = currentWord.split('').filter((l, i) => correctWord[i] === l);
+    const greens = guessedWord
+      .split('')
+      .filter((l, i) => solutionWord[i] === l);
     const newGreenKeys = greenKeys.concat(' ' + greens.join(' '));
     setGreenKeys(newGreenKeys);
 
-    const yellows = currentWord
+    const yellows = guessedWord
       .split('')
       .filter(
         (l, i) =>
-          correctWord[i] !== l &&
-          correctWord.includes(l) &&
+          solutionWord[i] !== l &&
+          solutionWord.includes(l) &&
           !greenKeys.concat(greens.join(' ')).includes(l),
       );
     const newYellowKeys = yellowKeys.concat(' ' + yellows.join(' '));
     setYellowKeys(newYellowKeys);
 
-    const disabled = currentWord
+    const disabled = guessedWord
       .split('')
-      .filter((l) => !correctWord.includes(l));
+      .filter((l) => !solutionWord.includes(l));
     const newDisabledKeys = disabledKeys.concat(' ' + disabled.join(' '));
     setDisabledKeys(newDisabledKeys);
 
     const status = getGameStatus();
     axios.post('/api/wordle/session', {
       guessedWords,
-      rowIndex: rowIndex + 1,
+      rowIndex: currentRowIdx + 1,
       gameStatus: status,
       greenKeys: newGreenKeys,
       yellowKeys: newYellowKeys,
       disabledKeys: newDisabledKeys,
     });
 
-    setRowIndex((prev) => prev + 1);
+    setCurrentRowIdx((prev) => prev + 1);
     setGameStatus(status);
   };
 
@@ -125,11 +127,11 @@ function Wordle() {
       });
     } else if (key === '{backspace}') {
       return handleEnteredWordChange({
-        target: { value: guessedWords[rowIndex].slice(0, -1) },
+        target: { value: guessedWords[currentRowIdx].slice(0, -1) },
       });
     } else if (isLetter(key)) {
       return handleEnteredWordChange({
-        target: { value: guessedWords[rowIndex] + key },
+        target: { value: guessedWords[currentRowIdx] + key },
       });
     }
   };
@@ -140,33 +142,33 @@ function Wordle() {
       <div className={styles.cardContainer}>
         <CardRow
           enteredWord={guessedWords[0]}
-          shouldFlip={rowIndex >= 1}
-          correctWord={correctWord}
+          shouldFlip={currentRowIdx >= 1}
+          correctWord={solutionWord}
         />
         <CardRow
           enteredWord={guessedWords[1]}
-          shouldFlip={rowIndex >= 2}
-          correctWord={correctWord}
+          shouldFlip={currentRowIdx >= 2}
+          correctWord={solutionWord}
         />
         <CardRow
           enteredWord={guessedWords[2]}
-          shouldFlip={rowIndex >= 3}
-          correctWord={correctWord}
+          shouldFlip={currentRowIdx >= 3}
+          correctWord={solutionWord}
         />
         <CardRow
           enteredWord={guessedWords[3]}
-          shouldFlip={rowIndex >= 4}
-          correctWord={correctWord}
+          shouldFlip={currentRowIdx >= 4}
+          correctWord={solutionWord}
         />
         <CardRow
           enteredWord={guessedWords[4]}
-          shouldFlip={rowIndex >= 5}
-          correctWord={correctWord}
+          shouldFlip={currentRowIdx >= 5}
+          correctWord={solutionWord}
         />
         <CardRow
           enteredWord={guessedWords[5]}
-          shouldFlip={rowIndex >= 6}
-          correctWord={correctWord}
+          shouldFlip={currentRowIdx >= 6}
+          correctWord={solutionWord}
         />
       </div>
       {loading ? (
@@ -177,7 +179,7 @@ function Wordle() {
             <input
               className={styles.input}
               type="text"
-              value={guessedWords[rowIndex] || ''}
+              value={guessedWords[currentRowIdx] || ''}
               onChange={handleEnteredWordChange}
               ref={inputRef}
             />

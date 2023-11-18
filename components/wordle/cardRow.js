@@ -1,27 +1,28 @@
 import { Fragment } from 'react';
-import styles from '../../styles/Wordle.module.css';
 import Card from './card';
 
 function CardRow({ enteredWord, shouldFlip, correctWord }) {
-  const getColor = (letter, i) => {
-    if (correctWord[i] === letter) return 'green';
+  const getCardColor = (cardLetter, i) => {
+    if (correctWord[i] === cardLetter) return 'green';
 
     // The following madness determines if flipped letter needs to be yellow
     const correctLetters = correctWord.split('');
     const enteredLetters = enteredWord.split('');
     const instancesOfCurrentLetterInCorrectWord = correctLetters.filter(
-      (l) => l === letter,
+      (l) => l === cardLetter,
     ).length;
     const correctlyPlacedCurrentLetters = enteredLetters.filter(
-      (l, idx) => l === letter && correctLetters[idx] === l,
+      (l, idx) => l === cardLetter && correctLetters[idx] === l,
     ).length;
     const enteredWordUpToThisPoint = enteredLetters.slice(0, i + 1);
     const enteredInstancesNotPlacedCorrectly = enteredWordUpToThisPoint.filter(
       (l, idx) =>
-        correctLetters.includes(l) && correctLetters[idx] !== l && l === letter,
+        correctLetters.includes(l) &&
+        correctLetters[idx] !== l &&
+        l === cardLetter,
     );
     if (
-      correctWord.includes(letter) &&
+      correctWord.includes(cardLetter) &&
       instancesOfCurrentLetterInCorrectWord > correctlyPlacedCurrentLetters &&
       correctlyPlacedCurrentLetters +
         enteredInstancesNotPlacedCorrectly.length <=
@@ -40,35 +41,35 @@ function CardRow({ enteredWord, shouldFlip, correctWord }) {
         backText={enteredWord[0]}
         flip={shouldFlip}
         i={'0'}
-        color={getColor(enteredWord[0], 0)}
+        color={getCardColor(enteredWord[0], 0)}
       />
       <Card
         frontText={enteredWord[1]}
         backText={enteredWord[1]}
         flip={shouldFlip}
         i={'1'}
-        color={getColor(enteredWord[1], 1)}
+        color={getCardColor(enteredWord[1], 1)}
       />
       <Card
         frontText={enteredWord[2]}
         backText={enteredWord[2]}
         flip={shouldFlip}
         i={'2'}
-        color={getColor(enteredWord[2], 2)}
+        color={getCardColor(enteredWord[2], 2)}
       />
       <Card
         frontText={enteredWord[3]}
         backText={enteredWord[3]}
         flip={shouldFlip}
         i={'3'}
-        color={getColor(enteredWord[3], 3)}
+        color={getCardColor(enteredWord[3], 3)}
       />
       <Card
         frontText={enteredWord[4]}
         backText={enteredWord[4]}
         flip={shouldFlip}
         i={'4'}
-        color={getColor(enteredWord[4], 4)}
+        color={getCardColor(enteredWord[4], 4)}
       />
     </Fragment>
   );
