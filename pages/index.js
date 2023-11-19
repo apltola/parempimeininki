@@ -1,7 +1,7 @@
 import styles from '../styles/Home.module.css';
+import { useState } from 'react';
 import Link from 'next/link';
 import { isMobile } from 'react-device-detect';
-import { useState } from 'react';
 
 export default function Home() {
   const [showSnakeDisclaimer, setShowSnakeDisclaimer] = useState(false);
