@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { setCookies } from 'cookies-next';
+import { setCookie } from 'cookies-next';
 
 const getTomorrowsDateString = () =>
   new Date(new Date().setDate(new Date().getDate() + 1))
@@ -25,7 +25,7 @@ async function postHandler(req, res) {
     process.env.JWT_SECRET,
   );
 
-  setCookies('wordlesession', token, {
+  setCookie('wordlesession', token, {
     req,
     res,
     expires: new Date(`${getTomorrowsDateString()}T00:00:00.000Z`),

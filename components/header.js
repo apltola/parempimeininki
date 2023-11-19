@@ -15,11 +15,7 @@ export default function Header() {
         <div className={styles.text}>{str}</div>
       </header>
       <div className={styles.linkContainer}>
-        {router.pathname !== '/' && (
-          <Link href="/">
-            <a>&larr; Back to Home</a>
-          </Link>
-        )}
+        {router.pathname !== '/' && <Link href="/">&larr; Back to Home</Link>}
       </div>
     </Fragment>
   );
