@@ -1,3 +1,20 @@
+:root {
+  --max-w-content: 1280px;
+
+  --white: hsl(0 0% 98%);
+  --offwhite: hsl(0 0% 90%);
+  --black: hsl(0 0% 6%);
+  --gray: hsl(0 0% 22%);
+  --gray-light: hsl(0 0% 32%);
+  --green: hsl(140 80% 40%);
+  --malachite: hsl(140 80% 50%);
+  --yellow: hsl(40 98% 60%);
+  --scarlet: hsl(11 100% 50%);
+  --wordle-green: hsl(120, 32%, 44%);
+  --wordle-keyboard: hsl(200 1% 51%);
+  --wordle-yellow: hsl(52, 98%, 43%);
+}
+
 html,
 body {
   padding: 0;
@@ -5,8 +22,12 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+  background-color: var(--white);
+  color: var(--black);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .app-container {
@@ -24,14 +45,12 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  font-family: inherit;
 }
 
 button {
+  font-family: inherit;
   cursor: pointer;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 .simple-keyboard.myTheme1 {
@@ -39,7 +58,7 @@ button {
 }
 
 .simple-keyboard.myTheme1 .hg-button {
-  background: #818384;
+  background: var(--wordle-keyboard);
   color: white;
   font-weight: 600;
   height: 50px;
@@ -52,9 +71,9 @@ button {
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-green {
-  background: rgb(83, 141, 78);
+  background: var(--wordle-green);
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-yellow {
-  background: rgb(181, 159, 59);
+  background: var(--wordle-yellow);
 }

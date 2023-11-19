@@ -2,7 +2,6 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  font-family: monospace, 'Courier New', Courier;
 }
 
 .rowLeft,
@@ -28,17 +27,11 @@
 
 .gameOverView {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 5px;
-  left: 0;
-  width: 400px;
-  height: 400px;
-  margin: 0 auto;
+  inset: 0;
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--white);
   text-align: center;
 }
 
@@ -66,8 +59,8 @@
 .restartButton {
   align-self: center;
   border: transparent;
-  background-color: #ffe66d;
-  color: black;
+  background-color: var(--yellow);
+  color: var(--black);
   padding: 5px 15px;
   font-size: large;
   font-weight: 600;
@@ -76,21 +69,6 @@
 
 .restartButton:hover {
   color: white;
-}
-
-.startButton {
-  background-color: transparent;
-  color: #2a2d34;
-  border: transparent;
-  padding: 10px 20px;
-  font-size: 40px;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-style: italic;
-}
-
-.startButton:hover {
-  opacity: 0.8;
 }
 
 .textInput {

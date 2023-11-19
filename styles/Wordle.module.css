@@ -67,7 +67,7 @@
 }
 
 .cardFront {
-  background-color: #28282a;
+  background-color: var(--gray);
   color: white;
 }
 
@@ -77,15 +77,15 @@
 }
 
 .cardBack[color='gray'] {
-  background-color: rgb(58, 58, 60);
+  background-color: var(--gray-light);
 }
 
 .cardBack[color='yellow'] {
-  background-color: rgb(181, 159, 59);
+  background-color: var(--wordle-yellow);
 }
 
 .cardBack[color='green'] {
-  background-color: rgb(83, 141, 78);
+  background-color: var(--wordle-green);
 }
 
 .formi {
