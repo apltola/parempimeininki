@@ -25,7 +25,6 @@ export default function Home() {
           href={isMobile ? '/' : '/snake'}
           className={styles.card}
           onTouchStart={handleSnakeMobileTouch}
-          // scroll={isMobile ? false : true}
         >
           <h2>
             🐍 Snake <span className={styles.arrowContainer}>&rarr;</span>
@@ -37,6 +36,7 @@ export default function Home() {
             </p>
           )}
         </Link>
+
         <Link href="/typing" className={[styles.card]}>
           <h2>
             ⌨️ Typing Game <span className={styles.arrowContainer}>&rarr;</span>
