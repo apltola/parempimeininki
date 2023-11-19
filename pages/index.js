@@ -16,17 +16,21 @@ export default function Home() {
   return (
     <section className={styles.container}>
       <div className={styles.grid}>
-        <Link href="/wordle" className={styles.card2}>
-          <h2>🟩 Wordle &rarr;</h2>
+        <Link href="/wordle" className={styles.card}>
+          <h2>
+            🟩 Wordle <span className={styles.arrowContainer}>&rarr;</span>
+          </h2>
           <p>Wordle with Finnish words</p>
         </Link>
 
         <Link
           href={isMobile ? '/' : '/snake'}
           scroll={isMobile ? false : true}
-          className={styles.card2}
+          className={styles.card}
         >
-          <h2>🐍 Snake &rarr;</h2>
+          <h2>
+            🐍 Snake <span className={styles.arrowContainer}>&rarr;</span>
+          </h2>
           <p>Classic snake game</p>
           {showSnakeDisclaimer && (
             <div className={styles.error}>
@@ -34,13 +38,17 @@ export default function Home() {
             </div>
           )}
         </Link>
-        <Link href="/typing" className={[styles.card2]}>
-          <h2>⌨️ Typing Game &rarr;</h2>
+        <Link href="/typing" className={[styles.card]}>
+          <h2>
+            ⌨️ Typing Game <span className={styles.arrowContainer}>&rarr;</span>
+          </h2>
           <p>Type as many words as you can in 60 seconds</p>
         </Link>
 
-        <Link href="/papruipsum" className={styles.card2}>
-          <h2>📜 Papru ipsum &rarr;</h2>
+        <Link href="/papruipsum" className={styles.card}>
+          <h2>
+            📜 Papru ipsum <span className={styles.arrowContainer}>&rarr;</span>
+          </h2>
           <p>Lorem ipsum generator with Paperi-T lyrics</p>
         </Link>
       </div>

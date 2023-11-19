@@ -21,33 +21,46 @@
   padding: 0 0.5rem;
 }
 
-.card2 {
+.card {
   --is-active: 0;
   padding: 2rem 2.5rem;
   border: 1px solid transparent;
   border-radius: 6px;
   transition: background-position 0.33s;
   background:
-    linear-gradient(var(--white), var(--white)) padding-box,
-    linear-gradient(var(--green), var(--green))
+    linear-gradient(hsl(0 0% 98%), hsl(0 0% 99%)) padding-box,
+    linear-gradient(var(--green), var(--malachite))
       calc((1 - var(--is-active)) * -500px) 0px border-box,
     var(--offwhite);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
-.card2:is(:hover, :focus-visible) {
+.card:is(:hover, :focus-visible) {
   --is-active: 1;
 }
 
-.card2 h2 {
+.card h2 {
   margin: 0;
   padding-bottom: 1rem;
   font-weight: 600;
 }
 
-.card2 p {
+.card p {
   margin: 0;
+}
+
+.arrowContainer {
+  transition: background-position 0.33s;
+  color: transparent;
+
+  background:
+    linear-gradient(var(--green), var(--malachite))
+      calc((1 - var(--is-active)) * -30px) 0px border-box,
+    var(--black);
+  background-clip: text;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .relative {
