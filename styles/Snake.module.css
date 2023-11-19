@@ -28,17 +28,11 @@
 
 .gameOverView {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 5px;
-  left: 0;
-  width: 400px;
-  height: 400px;
-  margin: 0 auto;
+  inset: 0;
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--white);
   text-align: center;
 }
 
@@ -66,7 +60,7 @@
 .restartButton {
   align-self: center;
   border: transparent;
-  background-color: #ffe66d;
+  background-color: var(--yellow);
   color: black;
   padding: 5px 15px;
   font-size: large;

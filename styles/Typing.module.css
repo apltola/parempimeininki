@@ -9,15 +9,15 @@
   width: 95%;
   max-width: 600px;
   height: 450px;
-  background-color: #353535;
-  color: #fffcf9;
+  background-color: var(--gray);
+  color: var(--white);
   position: relative;
 }
 
 .startButton {
   background: transparent;
-  color: #fffcf9;
-  border: 2px solid #fffcf9;
+  color: var(--white);
+  border: 2px solid var(--white);
   padding: 10px 20px;
   font-size: 22px;
   text-transform: uppercase;
@@ -29,8 +29,8 @@
 }
 
 .startButton:hover {
-  color: #da3f62;
-  border: 2px solid #da3f62;
+  color: var(--green);
+  border: 2px solid var(--green);
 }
 
 .startScreen,
@@ -75,11 +75,11 @@
 }
 
 .letter[correct='true'] {
-  color: #da3f62;
+  color: var(--green);
 }
 
 .letter[correct='false'] {
-  color: #f3b61f;
+  color: var(--wordle-yellow);
 }
 
 .score {

@@ -75,11 +75,11 @@ export default function Snake(props) {
 
     // Paint black background for canvas
     const ctx = canvas.current.getContext('2d');
-    ctx.fillStyle = '#2A2D34';
+    ctx.fillStyle = '#373737';
     ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
 
     // Paint snake
-    ctx.fillStyle = '#20FC8F';
+    ctx.fillStyle = '#96F550';
     for (let i = 0; i < trail.length; i++) {
       const element = trail[i];
       ctx.fillRect(
@@ -109,7 +109,7 @@ export default function Snake(props) {
       _score++;
       setScore((prev) => prev + 1);
     }
-    ctx.fillStyle = '#FF6B6B';
+    ctx.fillStyle = '#F03A47';
     ctx.fillRect(
       appleX * tileSize,
       appleY * tileSize,

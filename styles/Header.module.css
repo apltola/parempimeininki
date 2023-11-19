@@ -1,19 +1,19 @@
 .header {
   position: relative;
-  background-color: #000;
-  color: white;
-  font-size: 30px;
+  padding: 1.5rem 0;
+  background-color: var(--black);
+  color: var(--white);
   font-style: italic;
   font-weight: bolder;
-  height: 70px;
   overflow: hidden;
 }
 
-.text {
-  position: absolute;
-  top: 15px;
-  left: -30px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  margin-left: -3rem;
+  overflow: hidden;
   cursor: default;
   pointer-events: none;
 }

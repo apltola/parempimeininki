@@ -12,7 +12,7 @@ export default function Header() {
   return (
     <Fragment>
       <header className={styles.header}>
-        <div className={styles.text}>{str}</div>
+        <h1>{str}</h1>
       </header>
       <div className={styles.linkContainer}>
         {router.pathname !== '/' && <Link href="/">&larr; Back to Home</Link>}

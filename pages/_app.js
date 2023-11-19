@@ -7,20 +7,23 @@ import { Router } from 'next/router';
 import NProgress from 'nprogress';
 import Header from '../components/header';
 import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 
 function MyApp({ Component, pageProps }) {
   Router.events.on('routeChangeStart', () => NProgress.start());
   Router.events.on('routeChangeComplete', () => NProgress.done());
   Router.events.on('routeChangeError', () => NProgress.done());
 
+  console.log('geist class', GeistSans.className);
+
   return (
     <Fragment>
       <Head>
         <title>parempi meininki</title>
       </Head>
-      <div className="app-container">
+      <div className={`app-container ${GeistSans.className}`}>
         <Header />
-        <main className="app-main">
+        <main className={`app-main ${GeistSans.className}`}>
           <Component {...pageProps} />
         </main>
       </div>

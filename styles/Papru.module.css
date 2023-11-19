@@ -36,7 +36,7 @@
   margin-left: 5px;
   cursor: pointer;
   color: #fff;
-  background-color: #2ea44f;
+  background-color: var(--green);
   border-color: rgba(27, 31, 35, 0.15);
   border-width: 1px;
   box-shadow:
@@ -52,7 +52,6 @@
 
 .words {
   border: 1px solid rgba(27, 31, 35, 0.15);
-  /* background-color: rgba(27, 31, 35, 0.1); */
   background-color: #f5f5f5;
   padding: 20px;
   font-family: 'Times New Roman', Times, serif;
